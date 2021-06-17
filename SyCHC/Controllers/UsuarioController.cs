@@ -31,24 +31,37 @@ namespace SyCHC.Controllers
 
         // GET api/<UsuarioController>/5
         [HttpGet("id/{id}")]
-        public Usuario Get(Guid id)
+        public ActionResult Get(Guid id)
         {
             var usuario = context.Usuario.FirstOrDefault(u => u.Id == id);
-            return usuario;
+            if (usuario != null)
+            {
+                return Ok(usuario);
+            } else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("email/{correoElectronico}")]
-        public Usuario Get(string correoElectronico)
+        public ActionResult Get(string correoElectronico)
         {
             var usuario = context.Usuario.FirstOrDefault(u => u.CorreoElectronico == correoElectronico);
-            return usuario;
+            if (usuario != null)
+            {
+                return Ok(usuario);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST api/<UsuarioController>
         [HttpPost]
         public ActionResult Post([FromBody] Usuario usuario)
         {
-            Usuario u = new Usuario();
+            Usuario usuarioNuevo = new Usuario();
             var data = Encoding.UTF8.GetBytes(usuario.Contrasena);
             SHA512 sha512 = new SHA512Managed();
 
@@ -58,21 +71,21 @@ namespace SyCHC.Controllers
                 byte[] hash = sha512.ComputeHash(data);
 
                 //Crear los datos del usuario
-                u.Contrasena = Convert.ToBase64String(hash);
-                u.CorreoElectronico = usuario.CorreoElectronico;
-                u.Estado = usuario.Estado;
-                u.FechaRegistro = usuario.FechaRegistro;
-                u.TipoUsuario = usuario.TipoUsuario;
+                usuarioNuevo.Contrasena = Convert.ToBase64String(hash);
+                usuarioNuevo.CorreoElectronico = usuario.CorreoElectronico;
+                usuarioNuevo.Estado = usuario.Estado;
+                usuarioNuevo.FechaRegistro = usuario.FechaRegistro;
+                usuarioNuevo.TipoUsuario = usuario.TipoUsuario;
 
                 //Añade el usuario
-                context.Usuario.Add(u);
+                context.Usuario.Add(usuarioNuevo);
                 context.SaveChanges();
 
-                return Ok(u);
+                return Ok(usuarioNuevo);
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
 
@@ -82,22 +95,30 @@ namespace SyCHC.Controllers
         {
             SHA512 sha512 = new SHA512Managed();
             var data = Encoding.UTF8.GetBytes(usuario.Contrasena);
-            var u = context.Usuario.Find(id);
+            var usuarioRegistro = context.Usuario.Find(id);
 
-            if (u != null)
+            if (usuarioRegistro != null)
             {
-                //Encriptar contraseña
-                byte[] hash = sha512.ComputeHash(data);
+                try
+                {
+                    //Encriptar contraseña
+                    byte[] hash = sha512.ComputeHash(data);
 
-                //Crear los datos del usuario
-                u.Contrasena = Convert.ToBase64String(hash);
-                u.CorreoElectronico = usuario.CorreoElectronico;
-                u.Estado = usuario.Estado;
-                u.FechaRegistro = usuario.FechaRegistro;
-                u.TipoUsuario = usuario.TipoUsuario;
+                    //Crear los datos del usuario
+                    usuarioRegistro.Contrasena = Convert.ToBase64String(hash);
+                    usuarioRegistro.CorreoElectronico = usuario.CorreoElectronico;
+                    usuarioRegistro.Estado = usuario.Estado;
+                    usuarioRegistro.FechaRegistro = usuario.FechaRegistro;
+                    usuarioRegistro.TipoUsuario = usuario.TipoUsuario;
 
-                context.SaveChanges();
-                return Ok(u);
+                    context.SaveChanges();
+
+                    return Ok(usuarioRegistro);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex);
+                }
             }
             else
             {
@@ -112,10 +133,17 @@ namespace SyCHC.Controllers
             var usuario = context.Usuario.Find(id);
             if (usuario != null)
             {
-                context.Usuario.Remove(usuario);
-                context.SaveChanges();
+                try
+                {
+                    context.Usuario.Remove(usuario);
+                    context.SaveChanges();
 
-                return Ok(usuario);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex);
+                }
             } else
             {
                 return NotFound();

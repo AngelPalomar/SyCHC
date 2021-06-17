@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SyCHC.Models
 {
-    public class Perfiles_Consultor
+    [Keyless]
+    public class Lista_Perfiles_Por_Consultor
     {
-        [Key]
         public int Id { get; set; }
         public Guid IdConsultor { get; set; }
-        public Guid IdPerfil { get; set; }
+        public string Nombre { get; set; }
+        public string Nivel { get; set; }
         public int AniosExperiencia { get; set; }
+        public decimal Costo { get; set; }
     }
 }
