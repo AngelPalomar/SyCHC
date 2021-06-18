@@ -10,45 +10,46 @@ namespace SyCHC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ConsultorController : ControllerBase
+    public class ClienteController : ControllerBase
     {
         private readonly AppDbContext context;
-        public ConsultorController(AppDbContext context)
+        public ClienteController(AppDbContext context)
         {
             this.context = context;
         }
 
-        // GET: api/<ConsultorController>
+        // GET: api/<ClienteController>
         [HttpGet]
-        public IEnumerable<Consultor> Get()
+        public IEnumerable<Cliente> Get()
         {
-            return context.Consultor.ToList();
+            return context.Cliente.ToList();
         }
 
-        // GET api/<ConsultorController>/5
+        // GET api/<ClienteController>/5
         [HttpGet("{id}")]
         public ActionResult Get(Guid id)
         {
-            var consultor = context.Consultor.FirstOrDefault(cons => cons.Id == id);
-            if (consultor != null)
+            var cliente = context.Cliente.Find(id);
+            if (cliente != null)
             {
-                return Ok(consultor);
-            } else
+                return Ok(cliente);
+            }
+            else
             {
                 return NotFound();
             }
         }
 
-        // POST api/<ConsultorController>
+        // POST api/<ClienteController>
         [HttpPost]
-        public ActionResult Post([FromBody] Consultor consultor)
+        public ActionResult Post([FromBody] Cliente cliente)
         {
             try
             {
-                context.Consultor.Add(consultor);
+                context.Cliente.Add(cliente);
                 context.SaveChanges();
 
-                return Ok(consultor);
+                return Ok(cliente);
             }
             catch (Exception ex)
             {
@@ -56,42 +57,45 @@ namespace SyCHC.Controllers
             }
         }
 
-        // PUT api/<ConsultorController>/5
+        // PUT api/<ClienteController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Consultor consultor)
+        public ActionResult Put(Guid id, [FromBody] Cliente nuevoCliente)
         {
-            var consultorRegistro = context.Consultor.Find(id);
-            if (consultorRegistro != null)
+            var clienteRegistro = context.Cliente.Find(id);
+            if (clienteRegistro != null)
             {
                 try
                 {
-                    consultorRegistro.Nombres = consultor.Nombres.ToLower();
-                    consultorRegistro.Apellidos = consultor.Apellidos.Trim();
+                    clienteRegistro.Nombre = nuevoCliente.Nombre;
+                    clienteRegistro.RFC = nuevoCliente.RFC;
+                    clienteRegistro.RazonSocial = nuevoCliente.RazonSocial;
+                    clienteRegistro.DireccionFiscal = nuevoCliente.DireccionFiscal;
 
                     context.SaveChanges();
 
-                    return Ok(consultorRegistro);
+                    return Ok(clienteRegistro);
                 }
                 catch (Exception ex)
                 {
                     return BadRequest(ex.Message);
                 }
-            } else
+            }
+            else
             {
                 return NotFound();
             }
         }
 
-        // DELETE api/<ConsultorController>/5
+        // DELETE api/<ClienteController>/5
         [HttpDelete("{id}")]
         public ActionResult Delete(Guid id)
         {
-            var consultor = context.Consultor.Find(id);
-            if (consultor != null)
+            var cliente = context.Cliente.Find(id);
+            if (cliente != null)
             {
                 try
                 {
-                    context.Consultor.Remove(consultor);
+                    context.Cliente.Remove(cliente);
                     context.SaveChanges();
 
                     return Ok();
@@ -100,7 +104,8 @@ namespace SyCHC.Controllers
                 {
                     return BadRequest(ex.Message);
                 }
-            } else
+            }
+            else
             {
                 return NotFound();
             }

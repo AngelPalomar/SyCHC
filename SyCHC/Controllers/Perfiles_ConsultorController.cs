@@ -53,7 +53,7 @@ namespace SyCHC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -76,7 +76,7 @@ namespace SyCHC.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex);
+                    return BadRequest(ex.Message);
                     throw;
                 }
             }
@@ -103,7 +103,7 @@ namespace SyCHC.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex);
+                    return BadRequest(ex.Message);
                     throw;
                 }
             }
