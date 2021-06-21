@@ -29,5 +29,6 @@ namespace SyCHC.Context
 
         //Vistas
         public DbSet<Lista_Perfiles_Por_Consultor> Lista_Perfiles_Por_Consultor { get; set; }
+        public DbSet<Lista_Etapas_De_Proyecto> Lista_Etapas_De_Proyecto { get; set; } 
     }
 }
