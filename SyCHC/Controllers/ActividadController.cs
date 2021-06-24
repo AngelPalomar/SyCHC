@@ -16,11 +16,9 @@ namespace SyCHC.Controllers
     public class ActividadController : ControllerBase
     {
         private readonly AppDbContext context;
-        private IWebHostEnvironment webHostEnvironment;
         public ActividadController(AppDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             this.context = context;
-            this.webHostEnvironment = webHostEnvironment;
         }
 
         // GET: api/<ActividadController>
@@ -47,39 +45,79 @@ namespace SyCHC.Controllers
 
         // POST api/<ActividadController>
         [HttpPost]
-        public string Post(/*[FromBody] Actividad actividad,*/ IFormFile archivo)
+        public ActionResult Post([FromBody] Actividad actividad)
         {
-            string nuevoNombre = "";
-            string path = "";
-
-            //Obtiene información del archivo
-            if (archivo != null)
+            //Guarda los datos de la actividad
+            try
             {
-                FileInfo fi = new FileInfo(archivo.FileName);
-                nuevoNombre = $"File_{DateTime.Now.TimeOfDay.Milliseconds}_{Guid.NewGuid()}_{fi}";
-                path = Path.Combine("", webHostEnvironment.ContentRootPath + "/Files/" + nuevoNombre);
+                context.Actividad.Add(actividad);
+                context.SaveChanges();
 
-                //Guarda archivo en las carpetas del servidor
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    archivo.CopyTo(stream);
-                }
+                return Ok(actividad);
+
             }
-
-
-            return nuevoNombre;
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT api/<ActividadController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult Put(Guid id, [FromBody] Actividad nuevaActividad)
         {
+            var actividadRegistro = context.Actividad.Find(id);
+            if (actividadRegistro != null)
+            {
+                try
+                {
+                    actividadRegistro.IdProyecto = nuevaActividad.IdProyecto;
+                    actividadRegistro.IdConsultor = nuevaActividad.IdConsultor;
+                    actividadRegistro.Fecha = nuevaActividad.Fecha;
+                    actividadRegistro.Descripcion = nuevaActividad.Descripcion;
+                    actividadRegistro.Etapa = nuevaActividad.Etapa;
+                    actividadRegistro.HorasTrabajadas = nuevaActividad.HorasTrabajadas;
+                    actividadRegistro.ArchivoURL = nuevaActividad.ArchivoURL;
+                    actividadRegistro.HorasFacturables = nuevaActividad.HorasFacturables;
+
+                    context.SaveChanges();
+
+                    return Ok(actividadRegistro);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // DELETE api/<ActividadController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(Guid id)
         {
+            var actividad = context.Actividad.Find(id);
+            if (actividad != null)
+            {
+                try
+                {
+                    context.Actividad.Remove(actividad);
+                    context.SaveChanges();
+
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

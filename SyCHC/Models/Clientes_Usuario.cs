@@ -10,7 +10,7 @@ namespace SyCHC.Models
     {
         [Key]
         public int Id { get; set; }
-        public Guid IdUsuarios { get; set; }
+        public Guid IdUsuario { get; set; }
         public Guid IdCliente { get; set; }
     }
 }
