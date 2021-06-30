@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Mvc;
 using SyCHC.Context;
 using SyCHC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SyCHC.Controllers
 {
@@ -40,28 +43,54 @@ namespace SyCHC.Controllers
             }
         }
 
-        // POST api/<SesionController>
+        //Método para iniciar sesión
+        // POST api/<SesionController>/iniciar
         [HttpPost]
-        public ActionResult Post([FromBody] Sesion sesion)
+        public ActionResult Post([FromBody] Credencial credencial)
         {
-            try
-            {
-                context.Sesion.Add(sesion);
-                context.SaveChanges();
+            string contrasenaEncriptada = "";
+            SHA512 sha512 = new SHA512Managed();
+            var data = Encoding.UTF8.GetBytes(credencial.Contrasena);
+            var usuario = context.Usuario.FirstOrDefault(us => us.CorreoElectronico == credencial.CorreoElectronico);
 
-                return Ok(sesion);
-            }
-            catch (Exception ex)
+            if (usuario != null)
             {
-                return BadRequest(ex.Message);
+                //Encriptar contraseña
+                byte[] hash = sha512.ComputeHash(data);
+                contrasenaEncriptada = Convert.ToBase64String(hash);
+
+                //Validar contraseña
+                if (usuario.Contrasena == contrasenaEncriptada)
+                {
+                    try
+                    {
+                        //Crea la sesión
+                        Sesion sesion = new Sesion();
+
+                        sesion.IdUsuario = usuario.Id;
+                        sesion.DireccionIP = credencial.DireccionIP;
+                        sesion.Fecha = DateTime.Now;
+
+                        context.Sesion.Add(sesion);
+                        context.SaveChanges();
+
+                        return Ok(sesion);
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest("No se pudo iniciar la sesión.");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Usuario o contraseña incorrectos.");
+                }
+            }
+            else
+            {
+                return NotFound("Este usuario no existe.");
             }
         }
-
-        // PUT api/<SesionController>/5
-        //[HttpPut("{id}")]
-        //public void Put(Guid id, [FromBody] string value)
-        //{
-        //}
 
         // DELETE api/<SesionController>/5
         [HttpDelete("{clave}")]
@@ -75,7 +104,7 @@ namespace SyCHC.Controllers
                     context.Sesion.Remove(sesion);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Sesión terminada correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -84,7 +113,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Sesión no encontrada.");
             }
         }
     }

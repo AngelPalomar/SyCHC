@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace SyCHC
 {
@@ -26,6 +27,10 @@ namespace SyCHC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //CORS
+            services.AddCors();
+
+            //DB
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Connection"));
@@ -40,6 +45,14 @@ namespace SyCHC
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //CORS
+            app.UseCors(
+                options => options.WithOrigins("http://localhost:3000")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+            );
 
             app.UseRouting();
 

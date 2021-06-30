@@ -39,7 +39,7 @@ namespace SyCHC.Controllers
                 return Ok(usuario);
             } else
             {
-                return NotFound();
+                return NotFound("Usuario no encontrado.");
             }
         }
 
@@ -53,7 +53,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Usuario no encontrado.");
             }
         }
 
@@ -122,7 +122,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Usuario no encontrado.");
             }
         }
 
@@ -146,7 +146,7 @@ namespace SyCHC.Controllers
                 }
             } else
             {
-                return NotFound();
+                return NotFound("Usuario no encontrado.");
             }
         }
     }

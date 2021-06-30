@@ -65,3 +65,8 @@ C:\Users\angel\source\repos\SyCHC\SyCHC\bin\Debug\netcoreapp3.1\runtimes\win\lib
 C:\Users\angel\source\repos\SyCHC\SyCHC\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\angel\source\repos\SyCHC\SyCHC\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\angel\source\repos\SyCHC\SyCHC\obj\Debug\netcoreapp3.1\SyCHC.csproj.CopyComplete
+C:\Users\angel\source\repos\SyCHC\SyCHC\bin\Debug\netcoreapp3.1\System.Web.Cors.dll
+C:\Users\angel\source\repos\SyCHC\SyCHC\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
+C:\Users\angel\source\repos\SyCHC\SyCHC\bin\Debug\netcoreapp3.1\System.Web.Http.dll
+C:\Users\angel\source\repos\SyCHC\SyCHC\bin\Debug\netcoreapp3.1\System.Web.Http.Cors.dll
+C:\Users\angel\source\repos\SyCHC\SyCHC\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
