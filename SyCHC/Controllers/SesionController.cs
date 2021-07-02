@@ -29,17 +29,17 @@ namespace SyCHC.Controllers
         }
 
         // GET api/<SesionController>/5
-        [HttpGet("{idUsuario}")]
-        public ActionResult Get(Guid idUsuario)
+        [HttpGet("{clave}")]
+        public ActionResult Get(Guid clave)
         {
-            var sesion = context.Sesion.Where(s => s.IdUsuario == idUsuario);
-            if (sesion.ToList().Count > 0)
+            var sesion = context.Sesion.Find(clave);
+            if (sesion != null)
             {
                 return Ok(sesion);
             }
             else
             {
-                return NotFound("No hay sesiones existentes.");
+                return NotFound("No existe la sesión.");
             }
         }
 
@@ -55,6 +55,12 @@ namespace SyCHC.Controllers
 
             if (usuario != null)
             {
+                //Verifica el estado del usuario
+                if (!usuario.Estado)
+                {
+                    return BadRequest("Usuario no disponible.");
+                }
+
                 //Encriptar contraseña
                 byte[] hash = sha512.ComputeHash(data);
                 contrasenaEncriptada = Convert.ToBase64String(hash);
@@ -70,6 +76,7 @@ namespace SyCHC.Controllers
                         sesion.IdUsuario = usuario.Id;
                         sesion.DireccionIP = credencial.DireccionIP;
                         sesion.Fecha = DateTime.Now;
+                        usuario.UltimoAcceso = DateTime.Now;
 
                         context.Sesion.Add(sesion);
                         context.SaveChanges();
