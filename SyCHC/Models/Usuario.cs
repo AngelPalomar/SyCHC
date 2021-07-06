@@ -12,9 +12,11 @@ namespace SyCHC.Models
         public Guid Id { get; set; }
         public string CorreoElectronico { get; set; }
         public string Contrasena { get; set; }
+        public string NombreUsuario { get; set; }
         public bool Estado { get; set; }
         public int TipoUsuario { get; set; }
         public DateTime FechaRegistro { get; set; }
         public DateTime? UltimoAcceso { get; set; }
+        public bool AsignadoTipoUsuario { get; set; }
     }
 }

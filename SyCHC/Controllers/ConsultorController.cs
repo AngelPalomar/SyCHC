@@ -70,7 +70,7 @@ namespace SyCHC.Controllers
 
                     context.SaveChanges();
 
-                    return Ok(consultorRegistro);
+                    return Ok("Consultor modificado correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -78,7 +78,7 @@ namespace SyCHC.Controllers
                 }
             } else
             {
-                return NotFound();
+                return NotFound("Consultor no encontrado.");
             }
         }
 
@@ -94,7 +94,7 @@ namespace SyCHC.Controllers
                     context.Consultor.Remove(consultor);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Consultor eliminado correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -102,7 +102,7 @@ namespace SyCHC.Controllers
                 }
             } else
             {
-                return NotFound();
+                return NotFound("Consultor no encontrado.");
             }
         }
     }

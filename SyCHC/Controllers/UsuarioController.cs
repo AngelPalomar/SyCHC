@@ -73,6 +73,7 @@ namespace SyCHC.Controllers
                 //Crear los datos del usuario
                 usuarioNuevo.Contrasena = Convert.ToBase64String(hash);
                 usuarioNuevo.CorreoElectronico = usuario.CorreoElectronico;
+                usuarioNuevo.NombreUsuario = usuario.NombreUsuario;
                 usuarioNuevo.Estado = usuario.Estado;
                 usuarioNuevo.FechaRegistro = usuario.FechaRegistro;
                 usuarioNuevo.TipoUsuario = usuario.TipoUsuario;
@@ -94,26 +95,34 @@ namespace SyCHC.Controllers
         public ActionResult Put(Guid id, [FromBody] Usuario usuario)
         {
             SHA512 sha512 = new SHA512Managed();
-            var data = Encoding.UTF8.GetBytes(usuario.Contrasena);
             var usuarioRegistro = context.Usuario.Find(id);
 
             if (usuarioRegistro != null)
             {
                 try
                 {
-                    //Encriptar contraseña
-                    byte[] hash = sha512.ComputeHash(data);
+                    //Si la contraseña es diferente, la cambia
+                    if (usuarioRegistro.Contrasena != usuario.Contrasena)
+                    {
+                        var data = Encoding.UTF8.GetBytes(usuario.Contrasena);
+
+                        //Encriptar contraseña
+                        byte[] hash = sha512.ComputeHash(data);
+
+                        usuarioRegistro.Contrasena = Convert.ToBase64String(hash);
+                    }
 
                     //Crear los datos del usuario
-                    usuarioRegistro.Contrasena = Convert.ToBase64String(hash);
                     usuarioRegistro.CorreoElectronico = usuario.CorreoElectronico;
+                    usuarioRegistro.NombreUsuario = usuario.NombreUsuario;
                     usuarioRegistro.Estado = usuario.Estado;
                     usuarioRegistro.FechaRegistro = usuario.FechaRegistro;
                     usuarioRegistro.TipoUsuario = usuario.TipoUsuario;
+                    usuarioRegistro.AsignadoTipoUsuario = usuario.AsignadoTipoUsuario;
 
                     context.SaveChanges();
 
-                    return Ok(usuarioRegistro);
+                    return Ok("Usuario modificado correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -133,12 +142,18 @@ namespace SyCHC.Controllers
             var usuario = context.Usuario.Find(id);
             if (usuario != null)
             {
+                //Verifica que el usuario no sea administrador
+                if (usuario.TipoUsuario == 1)
+                {
+                    return BadRequest("No se pueden eliminar administradores.");
+                }
+
                 try
                 {
                     context.Usuario.Remove(usuario);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok($"Usuario eliminado correctamente {usuario.CorreoElectronico}");
                 }
                 catch (Exception ex)
                 {

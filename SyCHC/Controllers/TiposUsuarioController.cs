@@ -35,7 +35,7 @@ namespace SyCHC.Controllers
                 return Ok(tiposUsuario);
             } else
             {
-                return NotFound();
+                return NotFound("Tipo de usuario no encontrado.");
             }
         }
 
@@ -77,7 +77,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Tipo de usuario no encontrado.");
             }
         }
 
@@ -93,7 +93,7 @@ namespace SyCHC.Controllers
                     context.TiposUsuario.Remove(tp);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok($"Tipo de usuario eliminado correctamente: {tp.Tipo}");
                 }
                 catch (Exception ex)
                 {
@@ -101,7 +101,7 @@ namespace SyCHC.Controllers
                 }
             } else
             {
-                return NotFound();
+                return NotFound("Tipo de usuario no encontrado.");
             }
         }
     }
