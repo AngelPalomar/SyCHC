@@ -18,7 +18,9 @@ namespace SyCHC.Models
         public int HorasEstimadas { get; set; }
         public int? HorasTotales { get; set; }
         public Guid? EtapaActual { get; set; }
+        #nullable enable
         public string? EstadoActual { get; set; }
+        #nullable disable
         public string Moneda { get; set; }
         public decimal? PrecioEstimado { get; set; }
         public decimal? PrecioReal { get; set; }

@@ -43,16 +43,21 @@ namespace SyCHC.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] Perfil perfil)
         {
+            Perfil nuevoPerfil = new Perfil();
             try
             {
-                context.Perfil.Add(perfil);
+                nuevoPerfil.Nombre = perfil.Nombre;
+                nuevoPerfil.Nivel = perfil.Nivel;
+                nuevoPerfil.Costo = Convert.ToDecimal(perfil.Costo);
+
+                context.Perfil.Add(nuevoPerfil);
                 context.SaveChanges();
 
                 return Ok(perfil);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ModelState);
             }
         }
 
@@ -68,7 +73,7 @@ namespace SyCHC.Controllers
                 {
                     perfilRegistro.Nombre = perfil.Nombre;
                     perfilRegistro.Nivel = perfil.Nivel;
-                    perfilRegistro.Costo = perfil.Costo;
+                    perfilRegistro.Costo = Convert.ToDecimal(perfil.Costo);
 
                     context.SaveChanges();
 
@@ -81,7 +86,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Perfil no encontrado.");
             }
         }
 
@@ -98,7 +103,7 @@ namespace SyCHC.Controllers
                     context.Perfil.Remove(perfil);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Perfil eliminado correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -107,7 +112,7 @@ namespace SyCHC.Controllers
             } 
             else
             {
-                return NotFound();
+                return NotFound("Perfil no encontrado.");
             }
         }
     }

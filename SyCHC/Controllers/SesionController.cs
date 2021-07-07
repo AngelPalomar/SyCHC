@@ -83,7 +83,7 @@ namespace SyCHC.Controllers
 
                         return Ok(sesion);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return BadRequest("No se pudo iniciar la sesión.");
                     }

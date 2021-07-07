@@ -36,7 +36,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Cliente no encontrado.");
             }
         }
 
@@ -82,7 +82,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Cliente no encontrado.");
             }
         }
 
@@ -98,7 +98,7 @@ namespace SyCHC.Controllers
                     context.Cliente.Remove(cliente);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Cliente eliminado correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -107,7 +107,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Cliente no encontrado.");
             }
         }
     }

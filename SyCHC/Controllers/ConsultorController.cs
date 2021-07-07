@@ -43,16 +43,28 @@ namespace SyCHC.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] Consultor consultor)
         {
-            try
+            var usuario = context.Usuario.Find(consultor.Id);
+            if (usuario != null)
             {
-                context.Consultor.Add(consultor);
-                context.SaveChanges();
+                try
+                {
+                    //Asigno tipo usuario
+                    usuario.AsignadoTipoUsuario = true;
 
-                return Ok(consultor);
+                    //Guardo el consultor
+                    context.Consultor.Add(consultor);
+                    context.SaveChanges();
+
+                    return Ok(consultor);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest(ex.Message);
+                return NotFound("Usuario consultor no encontrado.");
             }
         }
 
@@ -87,11 +99,18 @@ namespace SyCHC.Controllers
         public ActionResult Delete(Guid id)
         {
             var consultor = context.Consultor.Find(id);
-            if (consultor != null)
+            var usuario = context.Usuario.Find(id);
+
+            if (consultor != null && usuario != null)
             {
                 try
                 {
+                    //Elimino consultor
                     context.Consultor.Remove(consultor);
+
+                    //Des-asigno tipo usuario
+                    usuario.AsignadoTipoUsuario = false;
+
                     context.SaveChanges();
 
                     return Ok("Consultor eliminado correctamente.");
