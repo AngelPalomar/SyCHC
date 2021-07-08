@@ -36,7 +36,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Etapa del proyecto no encontrada.");
             }
         }
 
@@ -51,7 +51,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Etapa del proyecto no encontrada.");
             }
         }
 
@@ -94,8 +94,27 @@ namespace SyCHC.Controllers
 
         // DELETE api/<Etapas_ProyectoController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
+            var etapa_proyecto = context.Etapas_Proyecto.Find(id);
+            if (etapa_proyecto != null)
+            {
+                try
+                {
+                    context.Etapas_Proyecto.Remove(etapa_proyecto);
+                    context.SaveChanges();
+
+                    return Ok("Etapa eliminada con éxito.");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return NotFound("Etapa del proyecto no encontrada.");
+            }
         }
     }
 }

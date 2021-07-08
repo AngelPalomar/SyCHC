@@ -42,11 +42,29 @@ namespace SyCHC.Controllers
 
         // GET api/<Consultores_ProyectoController>/lista-proyectos/5
         [HttpGet("lista-proyectos/{idConsultor}")]
-        public ActionResult Get(Guid idConsultor)
+        public ActionResult GetProyectosPorConsultor(Guid idConsultor)
         {
             var consultoresProyecto = context
                 .Lista_Proyectos_Cliente_Consultor
                 .Where(cp => cp.IdConsultor == idConsultor);
+
+            if (consultoresProyecto.Count() > 0)
+            {
+                return Ok(consultoresProyecto);
+            }
+            else
+            {
+                return NotFound("No hay proyectos.");
+            }
+        }
+
+        // GET api/<Consultores_ProyectoController>/lista-proyectos/5
+        [HttpGet("lista-consultores/{idProyecto}")]
+        public ActionResult GetConsultoresPorProyecto(Guid idProyecto)
+        {
+            var consultoresProyecto = context
+                .Lista_Consultores_De_Proyecto
+                .Where(cp => cp.IdProyecto == idProyecto);
 
             if (consultoresProyecto.Count() > 0)
             {
@@ -128,7 +146,7 @@ namespace SyCHC.Controllers
                     context.Consultores_Proyecto.Remove(consultorProyecto);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Consultor eliminado correctamente.");
                 }
                 catch (Exception ex)
                 {

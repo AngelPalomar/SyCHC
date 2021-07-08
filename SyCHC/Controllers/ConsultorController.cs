@@ -77,7 +77,7 @@ namespace SyCHC.Controllers
             {
                 try
                 {
-                    consultorRegistro.Nombres = consultor.Nombres.ToLower();
+                    consultorRegistro.Nombres = consultor.Nombres.Trim();
                     consultorRegistro.Apellidos = consultor.Apellidos.Trim();
 
                     context.SaveChanges();

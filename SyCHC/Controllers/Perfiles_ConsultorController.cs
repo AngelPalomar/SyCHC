@@ -36,7 +36,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Perfil del consultor no encontrado.");
             }
         }
 
@@ -44,6 +44,20 @@ namespace SyCHC.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] Perfiles_Consultor perfiles_Consultor)
         {
+            //Verifica que no se duplique
+            var existePerfilConsultor = context
+                .Perfiles_Consultor
+                .FirstOrDefault(
+                    pc => 
+                    pc.IdConsultor == perfiles_Consultor.IdConsultor &&
+                    pc.IdPerfil == perfiles_Consultor.IdPerfil
+                );
+
+            if (existePerfilConsultor != null)
+            {
+                return BadRequest("Este perfil ya está asignado a este consultor.");
+            }
+
             try
             {
                 context.Perfiles_Consultor.Add(perfiles_Consultor);
@@ -82,7 +96,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Perfil del consultor no encontrado.");
             }
         }
 
@@ -99,7 +113,7 @@ namespace SyCHC.Controllers
 
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Perfil eliminado del consultor con éxito.");
                 }
                 catch (Exception ex)
                 {
@@ -109,7 +123,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Perfil del consultor no encontrado.");
             }
         }
     }

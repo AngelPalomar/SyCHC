@@ -31,5 +31,7 @@ namespace SyCHC.Context
         public DbSet<Lista_Perfiles_Por_Consultor> Lista_Perfiles_Por_Consultor { get; set; }
         public DbSet<Lista_Etapas_De_Proyecto> Lista_Etapas_De_Proyecto { get; set; }
         public DbSet<Lista_Proyectos_Cliente_Consultor> Lista_Proyectos_Cliente_Consultor { get; set; }
+        public DbSet<Lista_Consultores_De_Proyecto> Lista_Consultores_De_Proyecto { get; set; }
+        public DbSet<Lista_Usuarios_De_Cliente> Lista_Usuarios_De_Cliente { get; set; }
     }
 }
