@@ -143,7 +143,7 @@ namespace SyCHC.Controllers
             if (usuario != null)
             {
                 //Verifica que el usuario no sea administrador
-                if (usuario.TipoUsuario == 1)
+                if (usuario.TipoUsuario.Equals("admin"))
                 {
                     return BadRequest("No se pueden eliminar administradores.");
                 }

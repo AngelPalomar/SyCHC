@@ -9,7 +9,6 @@ namespace SyCHC.Models
     public class TiposUsuario
     {
         [Key]
-        public int Id { get; set; }
         public string Tipo { get; set; }
     }
 }

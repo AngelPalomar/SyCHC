@@ -36,7 +36,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Función no encontrada.");
             }
         }
 
@@ -46,6 +46,7 @@ namespace SyCHC.Controllers
         {
             try
             {
+                funcion.UltimaModificacion = DateTime.Now;
                 context.Funcion.Add(funcion);
                 context.SaveChanges();
 
@@ -68,7 +69,7 @@ namespace SyCHC.Controllers
                 {
                     funcionRegistro.Nombre = nuevaFuncion.Nombre;
                     funcionRegistro.ModificadoPor = nuevaFuncion.ModificadoPor;
-                    funcionRegistro.UltimaModificacion = nuevaFuncion.UltimaModificacion;
+                    funcionRegistro.UltimaModificacion = DateTime.Now;
 
                     context.SaveChanges();
 
@@ -81,7 +82,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Función no encontrada.");
             }
         }
 
@@ -97,7 +98,7 @@ namespace SyCHC.Controllers
                     context.Funcion.Remove(funcion);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Función eliminada correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -106,7 +107,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Función no encontrada.");
             }
         }
     }

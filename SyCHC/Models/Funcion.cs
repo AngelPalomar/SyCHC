@@ -12,6 +12,6 @@ namespace SyCHC.Models
         public Guid Id { get; set; }
         public string Nombre { get; set; }
         public string ModificadoPor { get; set; }
-        public DateTime UltimaModificacion { get; set; }
+        public DateTime? UltimaModificacion { get; set; }
     }
 }

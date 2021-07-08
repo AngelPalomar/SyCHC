@@ -50,6 +50,7 @@ namespace SyCHC.Controllers
             //Guarda los datos de la actividad
             try
             {
+                actividad.Fecha = DateTime.Now;
                 context.Actividad.Add(actividad);
                 context.SaveChanges();
 

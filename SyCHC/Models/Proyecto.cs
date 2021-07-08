@@ -16,17 +16,15 @@ namespace SyCHC.Models
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFinal { get; set; }
         public int HorasEstimadas { get; set; }
-        public int? HorasTotales { get; set; }
+        public int HorasTotales { get; set; }
         public Guid? EtapaActual { get; set; }
-        #nullable enable
-        public string? EstadoActual { get; set; }
-        #nullable disable
+        public string EstadoActual { get; set; }
         public string Moneda { get; set; }
-        public decimal? PrecioEstimado { get; set; }
-        public decimal? PrecioReal { get; set; }
-        public decimal? CostoEstimado { get; set; }
-        public decimal? CostoReal { get; set; }
+        public decimal PrecioEstimado { get; set; }
+        public decimal PrecioReal { get; set; }
+        public decimal CostoEstimado { get; set; }
+        public decimal CostoReal { get; set; }
         public string ModificadoPor { get; set; }
-        public DateTime UltimaModificacion { get; set; }
+        public DateTime? UltimaModificacion { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace SyCHC.Models
         public string Contrasena { get; set; }
         public string NombreUsuario { get; set; }
         public bool Estado { get; set; }
-        public int TipoUsuario { get; set; }
+        public string TipoUsuario { get; set; }
         public DateTime FechaRegistro { get; set; }
         public DateTime? UltimoAcceso { get; set; }
         public bool AsignadoTipoUsuario { get; set; }

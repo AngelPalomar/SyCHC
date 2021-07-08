@@ -10,10 +10,10 @@ namespace SyCHC.Models
     {
         [Key]
         public int Id { get; set; }
-        public int IdTipoUsuario { get; set; }
+        public string IdTipoUsuario { get; set; }
         public Guid IdFuncion { get; set; }
         public bool Estado { get; set; }
         public string ModificadoPor { get; set; }
-        public DateTime UltimaModificacion { get; set; }
+        public DateTime? UltimaModificacion { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace SyCHC.Controllers
 
         // GET api/<AccesoController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(Guid id)
+        public ActionResult Get(int id)
         {
             var acceso = context.Acceso.Find(id);
             if (acceso != null)
@@ -38,7 +38,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Acceso no encontrado.");
             }
         }
 
@@ -62,6 +62,7 @@ namespace SyCHC.Controllers
             //Intenta guardar el nuevo acceso
             try
             {
+                acceso.UltimaModificacion = DateTime.Now;
                 context.Acceso.Add(acceso);
                 context.SaveChanges();
 
@@ -86,7 +87,7 @@ namespace SyCHC.Controllers
                     accesoRegistro.IdFuncion = nuevoAcceso.IdFuncion;
                     accesoRegistro.Estado = nuevoAcceso.Estado;
                     accesoRegistro.ModificadoPor = nuevoAcceso.ModificadoPor;
-                    accesoRegistro.UltimaModificacion = nuevoAcceso.UltimaModificacion;
+                    accesoRegistro.UltimaModificacion = DateTime.Now;
 
                     context.SaveChanges();
 
@@ -99,7 +100,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Acceso no encontrado.");
             }
         }
 
@@ -115,7 +116,7 @@ namespace SyCHC.Controllers
                     context.Acceso.Remove(accesoRegistro);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Acceso eliminado correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -124,7 +125,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Acceso no encontrado.");
             }
         }
     }

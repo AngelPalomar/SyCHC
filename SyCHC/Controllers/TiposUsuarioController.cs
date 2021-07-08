@@ -27,9 +27,9 @@ namespace SyCHC.Controllers
 
         // GET api/<TiposUsuarioController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public ActionResult Get(string id)
         {
-            var tiposUsuario = context.TiposUsuario.FirstOrDefault(tipus => tipus.Id == id);
+            var tiposUsuario = context.TiposUsuario.FirstOrDefault(tipus => tipus.Tipo == id);
             if (tiposUsuario != null)
             {
                 return Ok(tiposUsuario);

@@ -36,7 +36,25 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("No hay proyectos.");
+            }
+        }
+
+        // GET api/<Consultores_ProyectoController>/lista-proyectos/5
+        [HttpGet("lista-proyectos/{idConsultor}")]
+        public ActionResult Get(Guid idConsultor)
+        {
+            var consultoresProyecto = context
+                .Lista_Proyectos_Cliente_Consultor
+                .Where(cp => cp.IdConsultor == idConsultor);
+
+            if (consultoresProyecto.Count() > 0)
+            {
+                return Ok(consultoresProyecto);
+            }
+            else
+            {
+                return NotFound("No hay proyectos.");
             }
         }
 
@@ -94,7 +112,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("No existe este consultor con este proyecto.");
             }
         }
 
@@ -119,7 +137,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("No existe este consultor con este proyecto.");
             }
         }
     }

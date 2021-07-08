@@ -10,7 +10,7 @@ namespace SyCHC.Models
         public Guid Id { get; set; }
         public Guid IdProyecto { get; set; }
         public Guid IdConsultor { get; set; }
-        public DateTime Fecha { get; set; }
+        public DateTime? Fecha { get; set; }
         public string Descripcion { get; set; }
         public Guid Etapa { get; set; }
         public int HorasTrabajadas { get; set; }

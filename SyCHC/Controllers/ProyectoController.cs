@@ -35,7 +35,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Proyecto no encontrado.");
             }
         }
 
@@ -45,6 +45,7 @@ namespace SyCHC.Controllers
         {
             try
             {
+                proyecto.UltimaModificacion = DateTime.Now;
                 context.Proyecto.Add(proyecto);
                 context.SaveChanges();
 
@@ -81,7 +82,7 @@ namespace SyCHC.Controllers
                     proyectoRegistro.CostoEstimado = nuevoProyecto.CostoEstimado;
                     proyectoRegistro.CostoReal = nuevoProyecto.CostoReal;
                     proyectoRegistro.ModificadoPor = nuevoProyecto.ModificadoPor;
-                    proyectoRegistro.UltimaModificacion = nuevoProyecto.UltimaModificacion;
+                    proyectoRegistro.UltimaModificacion = DateTime.Now;
 
                     context.SaveChanges();
 
@@ -94,7 +95,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Proyecto no encontrado.");
             }
         }
 
@@ -110,7 +111,7 @@ namespace SyCHC.Controllers
                     context.Proyecto.Remove(proyecto);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Proyecto eliminado correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -119,7 +120,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Proyecto no encontrado.");
             }
         }
     }
