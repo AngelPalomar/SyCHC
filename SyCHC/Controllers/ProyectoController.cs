@@ -81,6 +81,7 @@ namespace SyCHC.Controllers
                     proyectoRegistro.PrecioReal = nuevoProyecto.PrecioReal;
                     proyectoRegistro.CostoEstimado = nuevoProyecto.CostoEstimado;
                     proyectoRegistro.CostoReal = nuevoProyecto.CostoReal;
+                    proyectoRegistro.ImagenURL = nuevoProyecto.ImagenURL;
                     proyectoRegistro.ModificadoPor = nuevoProyecto.ModificadoPor;
                     proyectoRegistro.UltimaModificacion = DateTime.Now;
 

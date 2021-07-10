@@ -14,5 +14,6 @@ namespace SyCHC.Models
         public string RFC { get; set; }
         public string RazonSocial { get; set; }
         public string DireccionFiscal { get; set; }
+        public string ImagenURL { get; set; }
     }
 }

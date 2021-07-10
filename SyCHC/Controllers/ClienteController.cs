@@ -70,6 +70,7 @@ namespace SyCHC.Controllers
                     clienteRegistro.RFC = nuevoCliente.RFC;
                     clienteRegistro.RazonSocial = nuevoCliente.RazonSocial;
                     clienteRegistro.DireccionFiscal = nuevoCliente.DireccionFiscal;
+                    clienteRegistro.ImagenURL = nuevoCliente.ImagenURL;
 
                     context.SaveChanges();
 

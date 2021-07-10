@@ -24,6 +24,7 @@ namespace SyCHC.Models
         public decimal PrecioReal { get; set; }
         public decimal CostoEstimado { get; set; }
         public decimal CostoReal { get; set; }
+        public string ImagenURL { get; set; }
         public string ModificadoPor { get; set; }
         public DateTime? UltimaModificacion { get; set; }
     }

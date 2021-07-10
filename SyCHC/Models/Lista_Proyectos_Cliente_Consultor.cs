@@ -15,6 +15,7 @@ namespace SyCHC.Models
         public Guid IdCliente { get; set; }
         public string NombreProyecto { get; set; }
         public string EstadoActual { get; set; }
+        public string ImagenURL { get; set; }
         public string NombreCliente{ get; set; }
     }
 }
