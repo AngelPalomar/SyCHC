@@ -42,12 +42,68 @@ namespace SyCHC.Controllers
             }
         }
 
+        // GET api/<Cliente_UsuarioController>/lista-usuarios/5
+        [HttpGet("lista-usuarios/{idCliente}")]
+        public ActionResult GetListaUsuariosDeCliente(Guid idCliente)
+        {
+            var usuarioCliente = context.Lista_Usuarios_De_Cliente
+                .Where(uc => uc.IdCliente == idCliente);
+
+            if (usuarioCliente != null)
+            {
+                return Ok(usuarioCliente);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        // GET api/<Cliente_UsuarioController>/lista-usuarios/5
+        [HttpGet("info-cliente/{idUsuario}")]
+        public ActionResult GetListaClienteDeUsuario(Guid idUsuario)
+        {
+            var usuarioCliente = context.Lista_Usuarios_De_Cliente
+                .Where(uc => uc.IdUsuario == idUsuario);
+
+            if (usuarioCliente != null)
+            {
+                return Ok(usuarioCliente);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         // POST api/<Cliente_UsuarioController>
         [HttpPost]
         public ActionResult Post([FromBody] Clientes_Usuario clientes_Usuario)
         {
+            //Busca info del usuario
+            var usuarioInfo = context.Usuario.Find(clientes_Usuario.IdUsuario);
+            if (usuarioInfo == null)
+            {
+                return NotFound("Usuario no econtrado");
+            }
+
+            //Valida que no exista
+            var existeUsuarioCliente = context
+                .Clientes_Usuario
+                .FirstOrDefault(
+                    euc => 
+                    euc.IdCliente == clientes_Usuario.IdCliente &&
+                    euc.IdUsuario == clientes_Usuario.IdUsuario
+                );
+
+            if (existeUsuarioCliente != null)
+            {
+                return BadRequest("Este usuario ya está asignado a este cliente");
+            }
+
             try
             {
+                usuarioInfo.AsignadoTipoUsuario = true;
                 context.Clientes_Usuario.Add(clientes_Usuario);
                 context.SaveChanges();
 
@@ -81,7 +137,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Usuario no encontrado.");
             }
         }
 
@@ -90,14 +146,23 @@ namespace SyCHC.Controllers
         public ActionResult Delete(int id)
         {
             var cliSuarioRegistro = context.Clientes_Usuario.Find(id);
+
             if (cliSuarioRegistro != null)
             {
+                //Busca info del usuario
+                var usuarioInfo = context.Usuario.Find(cliSuarioRegistro.IdUsuario);
+                if (usuarioInfo == null)
+                {
+                    return NotFound("Usuario no econtrado");
+                }
+
                 try
                 {
+                    usuarioInfo.AsignadoTipoUsuario = false;
                     context.Clientes_Usuario.Remove(cliSuarioRegistro);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Usuario eliminado del cliente correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -106,7 +171,7 @@ namespace SyCHC.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("Usuario no encontrado.");
             }
         }
     }

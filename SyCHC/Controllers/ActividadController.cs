@@ -43,6 +43,23 @@ namespace SyCHC.Controllers
             }
         }
 
+        // GET api/<ActividadController>/lista-actividades/5
+        [HttpGet("lista-actividades/{idProyecto}")]
+        public ActionResult GetActividadesDeProyecto(Guid idProyecto)
+        {
+            var actividad = context
+                .Actividad
+                .Where(ac => ac.IdProyecto == idProyecto);
+            if (actividad != null)
+            {
+                return Ok(actividad.OrderByDescending(ac => ac.Fecha));
+            }
+            else
+            {
+                return NotFound("No hay actividades.");
+            }
+        }
+
         // POST api/<ActividadController>
         [HttpPost]
         public ActionResult Post([FromBody] Actividad actividad)
@@ -108,7 +125,7 @@ namespace SyCHC.Controllers
                     context.Actividad.Remove(actividad);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Actividad eliminada correctamente.");
                 }
                 catch (Exception ex)
                 {

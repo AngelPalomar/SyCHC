@@ -9,7 +9,7 @@ namespace SyCHC.Models
     [Keyless]
     public class Lista_Usuarios_De_Cliente
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public Guid IdCliente { get; set; }
         public Guid IdUsuario { get; set; }
         public string NombreCliente { get; set; }
