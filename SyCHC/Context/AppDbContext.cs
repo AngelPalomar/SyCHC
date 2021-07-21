@@ -23,6 +23,7 @@ namespace SyCHC.Context
         public DbSet<Perfil> Perfil { get; set; }
         public DbSet<Perfiles_Consultor> Perfiles_Consultor { get; set; }
         public DbSet<Proyecto> Proyecto { get; set; }
+        public DbSet<Reporte> Reporte { get; set; }
         public DbSet<Sesion> Sesion { get; set; }
         public DbSet<TiposUsuario> TiposUsuario { get; set; }
         public DbSet<Usuario> Usuario { get; set; }

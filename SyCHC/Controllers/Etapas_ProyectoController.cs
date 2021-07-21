@@ -40,7 +40,7 @@ namespace SyCHC.Controllers
             }
         }
 
-        // GET api/<Perfiles_ConsultorController>lista-etapas/abc-defg
+        // GET api/<Etapas_ProyectoController>lista-etapas/abc-defg
         [HttpGet("lista-etapas/{idProyecto}")]
         public ActionResult Get(Guid idProyecto)
         {

@@ -11,8 +11,10 @@ namespace SyCHC.Models
     {
         public int Id { get; set; }
         public Guid IdProyecto { get; set; }
+        public Guid IdConsultor { get; set; }
         public string NombresConsultor { get; set; }
         public string ApellidosConsultor { get; set; }
         public string NombrePerfil { get; set; }
+        public decimal Costo { get; set; }
     }
 }
