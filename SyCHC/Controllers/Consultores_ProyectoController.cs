@@ -41,14 +41,14 @@ namespace SyCHC.Controllers
         }
 
         // GET api/<Consultores_ProyectoController>/lista-proyectos/5
-        [HttpGet("lista-proyectos/{idConsultor}")]
+        [HttpGet("lista-proyectos-consultor/{idConsultor}")]
         public ActionResult GetProyectosPorConsultor(Guid idConsultor)
         {
             var consultoresProyecto = context
                 .Lista_Proyectos_Cliente_Consultor
                 .Where(cp => cp.IdConsultor == idConsultor);
 
-            if (consultoresProyecto.Count() > 0)
+            if (consultoresProyecto != null)
             {
                 return Ok(consultoresProyecto);
             }

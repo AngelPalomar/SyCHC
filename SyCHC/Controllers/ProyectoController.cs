@@ -39,6 +39,21 @@ namespace SyCHC.Controllers
             }
         }
 
+        // GET api/<ProyectoController>/5
+        [HttpGet("cliente/{idCliente}")]
+        public ActionResult GetByIdCliente(Guid idCliente)
+        {
+            var proyecto = context.Proyecto.Where(p => p.IdCliente == idCliente);
+            if (proyecto != null)
+            {
+                return Ok(proyecto);
+            }
+            else
+            {
+                return NotFound("Proyecto no encontrado.");
+            }
+        }
+
         // POST api/<ProyectoController>
         [HttpPost]
         public ActionResult Post([FromBody] Proyecto proyecto)

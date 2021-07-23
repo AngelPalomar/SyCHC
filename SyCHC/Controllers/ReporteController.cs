@@ -19,35 +19,38 @@ namespace SyCHC.Controllers
         }
 
         [HttpGet("proyecto")]
-        public ActionResult GetReporteProyecto(Guid? idProyecto, Guid? idEtapa, Guid? idConsultor, DateTime? fecha1, DateTime? fecha2)
+        public ActionResult GetReporteProyecto(Guid? idCliente, Guid? idProyecto, Guid? idEtapa, Guid? idConsultor, DateTime? fecha1, DateTime? fecha2)
         {
 
-            //Validacion de id proyecto
+            //Validacion de id proyecto y cliente
+            if (!idCliente.HasValue)
+                return BadRequest("Seleccione un cliente.");
+
             if (!idProyecto.HasValue)
                 return BadRequest("Seleccione un proyecto.");
 
             //Busca el proyecto
-            var proyecto = context.Reporte.Where(rp => rp.IdProyecto == idProyecto);
+            var reporte = context.Reporte.Where(rp => rp.IdProyecto == idProyecto);
 
-            if (proyecto == null)
+            if (reporte == null)
                 return NotFound("Proyecto no encontrado");
 
             //Verifica los valores que se dieron, irá haciendo la consulta comforme a los filtros dados
             if (idEtapa.HasValue)
             {
-                proyecto = proyecto.Where(rp => rp.IdEtapa == idEtapa);
+                reporte = reporte.Where(rp => rp.IdEtapa == idEtapa);
             }
 
             if (idConsultor.HasValue)
             {
-                proyecto = proyecto.Where(rp => rp.IdConsultor == idConsultor);
+                reporte = reporte.Where(rp => rp.IdConsultor == idConsultor);
             }
 
             if (fecha1.HasValue || fecha2.HasValue)
             {
                 if (fecha1.HasValue && fecha2.HasValue)
                 {
-                    proyecto = proyecto.Where(rp => rp.FechaActividad >= fecha1 && rp.FechaActividad <= fecha2.Value.AddDays(1));
+                    reporte = reporte.Where(rp => rp.FechaActividad >= fecha1 && rp.FechaActividad <= fecha2.Value.AddDays(1));
                 }
                 else
                 {
@@ -56,46 +59,68 @@ namespace SyCHC.Controllers
             }
 
             //Retorna el proyecto
-            return Ok(proyecto);
+            return Ok(reporte);
 
         }
 
-        //[HttpGet("proyecto/actividades-por-dia")]
-        //public ActionResult GetDesgloseActividadesPorDia(Guid? idProyecto, Guid? idConsultor, DateTime? fecha1, DateTime? fecha2)
-        //{
-        //    if (!idProyecto.HasValue)
-        //        return BadRequest();
+        [HttpGet("consultor")]
+        public ActionResult GetReporteConsultor(Guid? idConsultor, Guid? idProyecto, DateTime? fecha1, DateTime? fecha2)
+        {
+            //Validacion de id proyecto
+            if (!idConsultor.HasValue)
+                return BadRequest("Seleccione un consultor.");
 
-        //    //Busca por proyecto
-        //    var desglose = context.Desglose_Reporte_Actividades_Por_Dia.Where
-        //        (
-        //            draph =>
-        //                draph.IdProyecto == idProyecto 
-        //        );
+            //Busca el consultor
+            var reporte = context.Reporte.Where(rp => rp.IdConsultor == idConsultor);
 
-        //    //Aplica los filtros
-        //    if (idConsultor.HasValue)
-        //    {
-        //        desglose = desglose = context.Desglose_Reporte_Actividades_Por_Dia.Where
-        //        (
-        //            draph =>
-        //                draph.IdConsultor == idConsultor
-        //        );
-        //    }
+            if (reporte == null)
+                return NotFound("Consultor no encontrado");
 
-        //    if (fecha1.HasValue || fecha2.HasValue)
-        //    {
-        //        if (fecha1.HasValue && fecha2.HasValue)
-        //        {
-        //            desglose = desglose.Where(draph => draph.FechaActividadCorta >= fecha1 && draph.FechaActividadCorta <= fecha2.Value.AddDays(1));
-        //        }
-        //        else
-        //        {
-        //            return BadRequest("Las dos fechas son obligatorias, si desea actividades de un solo día, ingrese la misma fecha en los dos campos.");
-        //        }
-        //    }
+            //Valida y aplica los filtros
+            if (idProyecto.HasValue)
+                reporte = reporte.Where(rp => rp.IdProyecto == idProyecto);
 
-        //    return Ok(desglose);
-        //}
+            if (fecha1.HasValue || fecha2.HasValue)
+            {
+                if (fecha1.HasValue && fecha2.HasValue)
+                    reporte = reporte.Where(rp => rp.FechaActividad >= fecha1 && rp.FechaActividad <= fecha2.Value.AddDays(1));
+                else
+                    return BadRequest("Las dos fechas son obligatorias, si desea actividades de un solo día, ingrese la misma fecha en los dos campos.");
+            }
+
+            return Ok(reporte);
+        }
+
+        [HttpGet("cliente")]
+        public ActionResult GetReporteCliente(Guid? idCliente, Guid? idProyecto, Guid? idConsultor, DateTime? fecha1, DateTime? fecha2)
+        {
+            //Validacion de id proyecto
+            if (!idCliente.HasValue)
+                return BadRequest("Seleccione un cliente.");
+
+            //Busca el consultor
+            var reporte = context.Reporte.Where(rp => rp.IdCliente == idCliente);
+
+            if (reporte == null)
+                return NotFound("Cliente no encontrado");
+
+            //Aplica los filtros
+
+            if (idProyecto.HasValue)
+                reporte = reporte.Where(rp => rp.IdProyecto == idProyecto);
+
+            if (idConsultor.HasValue)
+                reporte = reporte.Where(rp => rp.IdConsultor == idConsultor);
+
+            if (fecha1.HasValue || fecha2.HasValue)
+            {
+                if (fecha1.HasValue && fecha2.HasValue)
+                    reporte = reporte.Where(rp => rp.FechaActividad >= fecha1 && rp.FechaActividad <= fecha2.Value.AddDays(1));
+                else
+                    return BadRequest("Las dos fechas son obligatorias, si desea actividades de un solo día, ingrese la misma fecha en los dos campos.");
+            }
+
+            return Ok(reporte);
+        }
     }
 }
