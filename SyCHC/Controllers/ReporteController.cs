@@ -122,5 +122,12 @@ namespace SyCHC.Controllers
 
             return Ok(reporte);
         }
+
+        //GET GRAFICA
+        [HttpGet("grafica-semana")]
+        public IEnumerable<Grafica_Cantidad_Actividades_Semana> GetGraficaCantidadProyectos()
+        {
+            return context.Grafica_Cantidad_Actividades_Semana.ToList();
+        }
     }
 }

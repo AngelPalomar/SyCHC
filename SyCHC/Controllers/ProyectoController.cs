@@ -54,6 +54,21 @@ namespace SyCHC.Controllers
             }
         }
 
+        //GET GRAFICA
+        [HttpGet("grafica-cantidad")]
+        public IEnumerable<Grafica_Cantidad_Proyectos> GetGraficaCantidadProyectos()
+        {
+            return context.Grafica_Cantidad_Proyectos.ToList();
+        }
+
+        //GET GRAFICA
+        [HttpGet("grafica-calendario-proyecto/{idProyecto}")]
+        public IEnumerable<Grafica_Calendario_Actividades> GetGraficaCalendarioActividades(Guid idProyecto)
+        {
+            var calendario = context.Grafica_Calendario_Actividades.Where(gca => gca.IdProyecto == idProyecto);
+            return calendario.ToList();
+        }
+
         // POST api/<ProyectoController>
         [HttpPost]
         public ActionResult Post([FromBody] Proyecto proyecto)

@@ -32,7 +32,7 @@ namespace SyCHC.Controllers
         [HttpGet("{clave}")]
         public ActionResult Get(Guid clave)
         {
-            var sesion = context.Sesion.Find(clave);
+            var sesion = context.Info_Sesion.FirstOrDefault(infs => infs.Clave == clave);
             if (sesion != null)
             {
                 return Ok(sesion);

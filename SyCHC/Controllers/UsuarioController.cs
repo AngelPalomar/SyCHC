@@ -57,6 +57,13 @@ namespace SyCHC.Controllers
             }
         }
 
+        //GET GRAFICA
+        [HttpGet("grafica-cantidad")]
+        public IEnumerable<Grafica_Cantidad_Usuarios> GetGraficaCantidadUsuarios()
+        {
+            return context.Grafica_Cantidad_Usuarios.ToList();
+        }
+
         // POST api/<UsuarioController>
         [HttpPost]
         public ActionResult Post([FromBody] Usuario usuario)

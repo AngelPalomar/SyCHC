@@ -29,10 +29,15 @@ namespace SyCHC.Context
         public DbSet<Usuario> Usuario { get; set; }
 
         //Vistas
+        public DbSet<Info_Sesion> Info_Sesion { get; set; } 
         public DbSet<Lista_Perfiles_Por_Consultor> Lista_Perfiles_Por_Consultor { get; set; }
         public DbSet<Lista_Etapas_De_Proyecto> Lista_Etapas_De_Proyecto { get; set; }
         public DbSet<Lista_Proyectos_Cliente_Consultor> Lista_Proyectos_Cliente_Consultor { get; set; }
         public DbSet<Lista_Consultores_De_Proyecto> Lista_Consultores_De_Proyecto { get; set; }
         public DbSet<Lista_Usuarios_De_Cliente> Lista_Usuarios_De_Cliente { get; set; }
+        public DbSet<Grafica_Cantidad_Proyectos> Grafica_Cantidad_Proyectos { get; set; }
+        public DbSet<Grafica_Cantidad_Usuarios> Grafica_Cantidad_Usuarios { get; set; }
+        public DbSet<Grafica_Cantidad_Actividades_Semana> Grafica_Cantidad_Actividades_Semana { get; set; }
+        public DbSet<Grafica_Calendario_Actividades> Grafica_Calendario_Actividades { get; set; }
     }
 }
