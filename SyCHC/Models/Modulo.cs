@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace SyCHC.Models
 {
-    public class Funcion
+    public class Modulo
     {
         [Key]
         public Guid Id { get; set; }
-        public string Accion { get; set; }
-        public Guid IdModulo { get; set; }
+        public string Nombre { get; set; }
         public string ModificadoPor { get; set; }
         public DateTime? UltimaModificacion { get; set; }
     }

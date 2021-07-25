@@ -55,9 +55,7 @@ namespace SyCHC.Controllers
                 );
 
             if (existeAcceso != null)
-            {
                 return BadRequest($"Este acceso ya está asignado al tipo de usuario {acceso.IdTipoUsuario}");
-            }
 
             //Intenta guardar el nuevo acceso
             try
@@ -78,6 +76,17 @@ namespace SyCHC.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Acceso nuevoAcceso)
         {
+            //Valida si ya existe un acceso igual
+            var existeAcceso = context.Acceso.FirstOrDefault
+                (
+                    acc =>
+                    acc.IdTipoUsuario == nuevoAcceso.IdTipoUsuario &&
+                    acc.IdFuncion == nuevoAcceso.IdFuncion
+                );
+
+            if (existeAcceso != null)
+                return BadRequest($"Este acceso ya está asignado al tipo de usuario {nuevoAcceso.IdTipoUsuario}");
+
             var accesoRegistro = context.Acceso.Find(id);
             if (accesoRegistro != null)
             {

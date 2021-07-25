@@ -20,9 +20,9 @@ namespace SyCHC.Controllers
 
         // GET: api/<FuncionController>
         [HttpGet]
-        public IEnumerable<Funcion> Get()
+        public IEnumerable<Lista_Funciones_Modulos> Get()
         {
-            return context.Funcion.ToList();
+            return context.Lista_Funciones_Modulos.ToList();
         }
 
         // GET api/<FuncionController>/5
@@ -44,6 +44,18 @@ namespace SyCHC.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] Funcion funcion)
         {
+            //Verifica que no se duplique
+            var existeFuncion = context
+                .Funcion
+                .FirstOrDefault(
+                    f =>
+                    f.Accion == funcion.Accion &&
+                    f.IdModulo == funcion.IdModulo
+                );
+
+            if (existeFuncion != null)
+                return BadRequest("Este modulo ya está asignado a esta función.");
+
             try
             {
                 funcion.UltimaModificacion = DateTime.Now;
@@ -62,12 +74,25 @@ namespace SyCHC.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(Guid id, [FromBody] Funcion nuevaFuncion)
         {
+            //Verifica que no se duplique
+            var existeFuncion = context
+                .Funcion
+                .FirstOrDefault(
+                    f =>
+                    f.Accion == nuevaFuncion.Accion &&
+                    f.IdModulo == nuevaFuncion.IdModulo
+                );
+
+            if (existeFuncion != null)
+                return BadRequest("Este modulo ya está asignado a esta función.");
+
             var funcionRegistro = context.Funcion.Find(id);
             if (funcionRegistro != null)
             {
                 try
                 {
-                    funcionRegistro.Nombre = nuevaFuncion.Nombre;
+                    funcionRegistro.Accion = nuevaFuncion.Accion;
+                    funcionRegistro.IdModulo = nuevaFuncion.IdModulo;
                     funcionRegistro.ModificadoPor = nuevaFuncion.ModificadoPor;
                     funcionRegistro.UltimaModificacion = DateTime.Now;
 
