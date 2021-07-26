@@ -23,14 +23,19 @@ namespace SyCHC.Controllers
 
         // GET: api/<SesionController>
         [HttpGet]
-        public IEnumerable<Sesion> Get()
+        public IEnumerable<Sesion> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Sesiones"))
+                return null;
+
             return context.Sesion.ToList();
         }
 
         // GET api/<SesionController>/5
         [HttpGet("{clave}")]
-        public ActionResult Get(Guid clave)
+        public ActionResult GetById(Guid clave)
         {
             var sesion = context.Info_Sesion.FirstOrDefault(infs => infs.Clave == clave);
             if (sesion != null)
