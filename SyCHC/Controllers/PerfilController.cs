@@ -20,15 +20,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<PerfilController>
         [HttpGet]
-        public IEnumerable<Perfil> Get()
+        public IEnumerable<Perfil> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Perfiles"))
+                return null;
+
             return context.Perfil.ToList();
         }
 
         // GET api/<PerfilController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(Guid id)
+        public ActionResult GetById(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Perfiles"))
+                return null;
+
             var perfil = context.Perfil.FirstOrDefault(p => p.Id == id);
             if (perfil != null)
             {
@@ -41,8 +51,13 @@ namespace SyCHC.Controllers
 
         // POST api/<PerfilController>
         [HttpPost]
-        public ActionResult Post([FromBody] Perfil perfil)
+        public ActionResult Post([FromBody] Perfil perfil, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Perfiles"))
+                return BadRequest("No tiene permisos.");
+
             Perfil nuevoPerfil = new Perfil();
             try
             {
@@ -63,8 +78,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<PerfilController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Perfil perfil)
+        public ActionResult Put(Guid id, [FromBody] Perfil perfil, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Perfiles"))
+                return BadRequest("No tiene permisos");
+
             var perfilRegistro = context.Perfil.Find(id);
 
             if (perfilRegistro != null)
@@ -92,8 +112,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<PerfilController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "eliminar", "Perfiles"))
+                return BadRequest("No tiene permisos");
+
             var perfil = context.Perfil.Find(id);
 
             if (perfil != null)

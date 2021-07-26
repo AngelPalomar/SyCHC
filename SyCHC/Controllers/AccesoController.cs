@@ -20,17 +20,47 @@ namespace SyCHC.Controllers
             this.context = context;
         }
 
+        public bool TieneAcceso(Guid session_id, string accion, string modulo)
+        {
+            //Treae el tipo de usuario del 
+            var datosUsuario = context.Info_Sesion.FirstOrDefault(ifs => ifs.Clave == session_id);
+            if (datosUsuario == null)
+                return false;
+
+            var tieneAcceso = context.Lista_Accesos_Modulo_Tipo_Usuario.Where
+                (
+                la =>
+                    la.TipoUsuario == datosUsuario.TipoUsuario &&
+                    la.Accion == accion &&
+                    la.NombreModulo == modulo &&
+                    la.Estado
+                ).FirstOrDefault();
+
+            if (tieneAcceso != null)
+                return true;
+            else
+                return false;
+        }
+
         // GET: api/<AccesoController>
         [HttpGet]
-        public IEnumerable<Acceso> Get()
+        public IEnumerable<Acceso> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            if (!TieneAcceso(session_id, "ver", "Accesos"))
+                return null;
+
             return context.Acceso.ToList();
         }
 
         // GET api/<AccesoController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public ActionResult GetById(int id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            if (!TieneAcceso(session_id, "ver", "Accesos"))
+                return BadRequest("No tiene permisos");
+
             var acceso = context.Acceso.Find(id);
             if (acceso != null)
             {
@@ -44,8 +74,12 @@ namespace SyCHC.Controllers
 
         // POST api/<AccesoController>
         [HttpPost]
-        public ActionResult Post([FromBody] Acceso acceso)
+        public ActionResult Post([FromBody] Acceso acceso, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            if (!TieneAcceso(session_id, "crear", "Accesos"))
+                return BadRequest("No tiene permisos");
+
             //Valida si ya existe un acceso igual
             var existeAcceso = context.Acceso.FirstOrDefault
                 (
@@ -74,26 +108,17 @@ namespace SyCHC.Controllers
 
         // PUT api/<AccesoController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Acceso nuevoAcceso)
+        public ActionResult Put(int id, [FromBody] Acceso nuevoAcceso, [FromHeader] Guid session_id)
         {
-            //Valida si ya existe un acceso igual
-            var existeAcceso = context.Acceso.FirstOrDefault
-                (
-                    acc =>
-                    acc.IdTipoUsuario == nuevoAcceso.IdTipoUsuario &&
-                    acc.IdFuncion == nuevoAcceso.IdFuncion
-                );
-
-            if (existeAcceso != null)
-                return BadRequest($"Este acceso ya está asignado al tipo de usuario {nuevoAcceso.IdTipoUsuario}");
+            //Verifica accesos
+            if (!TieneAcceso(session_id, "modificar", "Accesos"))
+                return BadRequest("No tiene permisos");
 
             var accesoRegistro = context.Acceso.Find(id);
             if (accesoRegistro != null)
             {
                 try
                 {
-                    accesoRegistro.IdTipoUsuario = nuevoAcceso.IdTipoUsuario;
-                    accesoRegistro.IdFuncion = nuevoAcceso.IdFuncion;
                     accesoRegistro.Estado = nuevoAcceso.Estado;
                     accesoRegistro.ModificadoPor = nuevoAcceso.ModificadoPor;
                     accesoRegistro.UltimaModificacion = DateTime.Now;
@@ -115,8 +140,12 @@ namespace SyCHC.Controllers
 
         // DELETE api/<AccesoController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            if (!TieneAcceso(session_id, "eliminar", "Accesos"))
+                return BadRequest("No tiene permisos");
+
             var accesoRegistro = context.Acceso.Find(id);
             if (accesoRegistro != null)
             {

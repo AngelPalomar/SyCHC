@@ -20,15 +20,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<ClienteController>
         [HttpGet]
-        public IEnumerable<Cliente> Get()
+        public IEnumerable<Cliente> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Clientes"))
+                return null;
+
             return context.Cliente.ToList();
         }
 
         // GET api/<ClienteController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(Guid id)
+        public ActionResult GetById(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Clientes"))
+                return BadRequest("No tiene permisos");
+
             var cliente = context.Cliente.Find(id);
             if (cliente != null)
             {
@@ -42,8 +52,13 @@ namespace SyCHC.Controllers
 
         // POST api/<ClienteController>
         [HttpPost]
-        public ActionResult Post([FromBody] Cliente cliente)
+        public ActionResult Post([FromBody] Cliente cliente, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Clientes"))
+                return BadRequest("No tiene permisos");
+
             try
             {
                 context.Cliente.Add(cliente);
@@ -59,8 +74,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<ClienteController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Cliente nuevoCliente)
+        public ActionResult Put(Guid id, [FromBody] Cliente nuevoCliente, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Clientes"))
+                return BadRequest("No tiene permisos");
+
             var clienteRegistro = context.Cliente.Find(id);
             if (clienteRegistro != null)
             {
@@ -89,8 +109,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<ClienteController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "eliminar", "Clientes"))
+                return BadRequest("No tiene permisos");
+
             var cliente = context.Cliente.Find(id);
             if (cliente != null)
             {

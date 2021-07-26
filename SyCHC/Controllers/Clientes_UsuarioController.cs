@@ -61,10 +61,15 @@ namespace SyCHC.Controllers
 
         // GET api/<Cliente_UsuarioController>/lista-usuarios/5
         [HttpGet("info-cliente/{idUsuario}")]
-        public ActionResult GetListaClienteDeUsuario(Guid idUsuario)
+        public ActionResult GetListaClienteDeUsuario(Guid idUsuario, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Clientes"))
+                return BadRequest("No tiene permisos");
+
             var usuarioCliente = context.Lista_Usuarios_De_Cliente
-                .Where(uc => uc.IdUsuario == idUsuario);
+                .FirstOrDefault(uc => uc.IdUsuario == idUsuario);
 
             if (usuarioCliente != null)
             {

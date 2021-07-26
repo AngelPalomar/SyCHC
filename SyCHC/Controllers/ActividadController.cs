@@ -23,15 +23,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<ActividadController>
         [HttpGet]
-        public IEnumerable<Actividad> Get()
+        public IEnumerable<Actividad> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Actividades"))
+                return null;
+
             return context.Actividad.ToList();
         }
 
         // GET api/<ActividadController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(Guid id)
+        public ActionResult GetById(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Actividades"))
+                return BadRequest("No tiene permisos");
+
             var actividad = context.Actividad.Find(id);
             if (actividad != null)
             {
@@ -45,8 +55,13 @@ namespace SyCHC.Controllers
 
         // GET api/<ActividadController>/lista-actividades/5
         [HttpGet("lista-actividades/{idProyecto}")]
-        public ActionResult GetActividadesDeProyecto(Guid idProyecto)
+        public ActionResult GetActividadesDeProyecto(Guid idProyecto, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Actividades"))
+                return BadRequest("No tiene permisos");
+
             var actividad = context
                 .Actividad
                 .Where(ac => ac.IdProyecto == idProyecto);
@@ -62,8 +77,13 @@ namespace SyCHC.Controllers
 
         // POST api/<ActividadController>
         [HttpPost]
-        public ActionResult Post([FromBody] Actividad actividad)
+        public ActionResult Post([FromBody] Actividad actividad, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Actividades"))
+                return BadRequest("No tiene permisos");
+
             //Guarda los datos de la actividad
             try
             {
@@ -82,8 +102,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<ActividadController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Actividad nuevaActividad)
+        public ActionResult Put(Guid id, [FromBody] Actividad nuevaActividad, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Actividades"))
+                return BadRequest("No tiene permisos");
+
             var actividadRegistro = context.Actividad.Find(id);
             if (actividadRegistro != null)
             {
@@ -115,8 +140,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<ActividadController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "eliminar", "Actividades"))
+                return BadRequest("No tiene permisos");
+
             var actividad = context.Actividad.Find(id);
             if (actividad != null)
             {

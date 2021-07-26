@@ -20,15 +20,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<FuncionController>
         [HttpGet]
-        public IEnumerable<Lista_Funciones_Modulos> Get()
+        public IEnumerable<Lista_Funciones_Modulos> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Funciones"))
+                return null;
+
             return context.Lista_Funciones_Modulos.ToList();
         }
 
         // GET api/<FuncionController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(Guid id)
+        public ActionResult GetById(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Funciones"))
+                return BadRequest("No tiene permisos");
+
             var funcion = context.Funcion.Find(id);
             if (funcion != null)
             {
@@ -42,8 +52,13 @@ namespace SyCHC.Controllers
 
         // POST api/<FuncionController>
         [HttpPost]
-        public ActionResult Post([FromBody] Funcion funcion)
+        public ActionResult Post([FromBody] Funcion funcion, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Funciones"))
+                return BadRequest("No tiene permisos");
+
             //Verifica que no se duplique
             var existeFuncion = context
                 .Funcion
@@ -72,8 +87,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<FuncionController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Funcion nuevaFuncion)
+        public ActionResult Put(Guid id, [FromBody] Funcion nuevaFuncion, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Funciones"))
+                return BadRequest("No tiene permisos");
+
             //Verifica que no se duplique
             var existeFuncion = context
                 .Funcion
@@ -113,8 +133,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<FuncionController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "eliminar", "Funciones"))
+                return BadRequest("No tiene permisos");
+
             var funcion = context.Funcion.Find(id);
             if (funcion != null)
             {

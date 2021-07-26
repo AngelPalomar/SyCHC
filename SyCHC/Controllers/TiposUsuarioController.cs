@@ -20,15 +20,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<TiposUsuarioController>
         [HttpGet]
-        public IEnumerable<TiposUsuario> Get()
+        public IEnumerable<TiposUsuario> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Tipos de Usuario"))
+                return null;
+
             return context.TiposUsuario.ToList();
         }
 
         // GET api/<TiposUsuarioController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(string id)
+        public ActionResult Get(string id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Tipos de Usuario"))
+                return BadRequest("No tiene permisos");
+
             var tiposUsuario = context.TiposUsuario.FirstOrDefault(tipus => tipus.Tipo == id);
             if (tiposUsuario != null)
             {
@@ -41,8 +51,13 @@ namespace SyCHC.Controllers
 
         // POST api/<TiposUsuarioController>
         [HttpPost]
-        public ActionResult Post([FromBody] TiposUsuario tipoUsuario)
+        public ActionResult Post([FromBody] TiposUsuario tipoUsuario, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Tipos de Usuario"))
+                return BadRequest("No tiene permisos");
+
             try
             {
                 context.TiposUsuario.Add(tipoUsuario);
@@ -58,8 +73,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<TiposUsuarioController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] TiposUsuario tipoUsuario)
+        public ActionResult Put(int id, [FromBody] TiposUsuario tipoUsuario, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Tipos de Usuario"))
+                return BadRequest("No tiene permisos");
+
             var tiposRegistro = context.TiposUsuario.Find(id);
             if (tiposRegistro != null)
             {
@@ -83,8 +103,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<TiposUsuarioController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "eliminar", "Tipos de Usuario"))
+                return BadRequest("No tiene permisos");
+
             var tp = context.TiposUsuario.Find(id);
             if (tp != null)
             {

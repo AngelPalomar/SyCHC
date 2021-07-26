@@ -20,15 +20,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<ConsultorController>
         [HttpGet]
-        public IEnumerable<Consultor> Get()
+        public IEnumerable<Consultor> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Consultores"))
+                return null;
+
             return context.Consultor.ToList();
         }
 
         // GET api/<ConsultorController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(Guid id)
+        public ActionResult GetById(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Consultores"))
+                return BadRequest("No tiene permisos.");
+
             var consultor = context.Consultor.FirstOrDefault(cons => cons.Id == id);
             if (consultor != null)
             {
@@ -39,10 +49,28 @@ namespace SyCHC.Controllers
             }
         }
 
+        //GET GRAFICA
+        [HttpGet("grafica-calendario-consultor/{idConsultor}")]
+        public IEnumerable<Grafica_Calendario_Actividades_Consultor> GetGraficaCalendarioActividades(Guid idConsultor, [FromHeader] Guid session_id)
+        {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Consultores"))
+                return null;
+
+            var calendario = context.Grafica_Calendario_Actividades_Consultor.Where(gca => gca.IdConsultor == idConsultor);
+            return calendario.ToList();
+        }
+
         // POST api/<ConsultorController>
         [HttpPost]
-        public ActionResult Post([FromBody] Consultor consultor)
+        public ActionResult Post([FromBody] Consultor consultor, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Consultores"))
+                return BadRequest("No tiene permisos");
+
             var usuario = context.Usuario.Find(consultor.Id);
             if (usuario != null)
             {
@@ -70,8 +98,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<ConsultorController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Consultor consultor)
+        public ActionResult Put(Guid id, [FromBody] Consultor consultor, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Consultores"))
+                return BadRequest("No tiene permisos.");
+
             var consultorRegistro = context.Consultor.Find(id);
             if (consultorRegistro != null)
             {
@@ -96,8 +129,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<ConsultorController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "eliminar", "Consultores"))
+                return BadRequest("No tiene permisos.");
+
             var consultor = context.Consultor.Find(id);
             var usuario = context.Usuario.Find(id);
 

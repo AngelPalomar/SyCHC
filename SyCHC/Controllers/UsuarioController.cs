@@ -24,15 +24,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<UsuarioController>
         [HttpGet]
-        public IEnumerable<Usuario> Get()
+        public IEnumerable<Usuario> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Usuarios"))
+                return null;
+
             return context.Usuario.ToList();
         }
 
         // GET api/<UsuarioController>/5
         [HttpGet("id/{id}")]
-        public ActionResult Get(Guid id)
+        public ActionResult GetById(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Usuarios"))
+                return BadRequest("No tiene permisos.");
+
             var usuario = context.Usuario.FirstOrDefault(u => u.Id == id);
             if (usuario != null)
             {
@@ -44,8 +54,13 @@ namespace SyCHC.Controllers
         }
 
         [HttpGet("email/{correoElectronico}")]
-        public ActionResult Get(string correoElectronico)
+        public ActionResult GetByCorreoElectronico(string correoElectronico, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Usuarios"))
+                return BadRequest("No tiene permisos");
+
             var usuario = context.Usuario.FirstOrDefault(u => u.CorreoElectronico == correoElectronico);
             if (usuario != null)
             {
@@ -59,15 +74,25 @@ namespace SyCHC.Controllers
 
         //GET GRAFICA
         [HttpGet("grafica-cantidad")]
-        public IEnumerable<Grafica_Cantidad_Usuarios> GetGraficaCantidadUsuarios()
+        public IEnumerable<Grafica_Cantidad_Usuarios> GetGraficaCantidadUsuarios([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Usuarios"))
+                return null;
+
             return context.Grafica_Cantidad_Usuarios.ToList();
         }
 
         // POST api/<UsuarioController>
         [HttpPost]
-        public ActionResult Post([FromBody] Usuario usuario)
+        public ActionResult Post([FromBody] Usuario usuario, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Usuarios"))
+                return BadRequest("No tiene permisos.");
+
             Usuario usuarioNuevo = new Usuario();
             var data = Encoding.UTF8.GetBytes(usuario.Contrasena);
             SHA512 sha512 = new SHA512Managed();
@@ -99,8 +124,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<UsuarioController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Usuario usuario)
+        public ActionResult Put(Guid id, [FromBody] Usuario usuario, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Usuarios"))
+                return BadRequest("No tiene permisos.");
+
             SHA512 sha512 = new SHA512Managed();
             var usuarioRegistro = context.Usuario.Find(id);
 
@@ -144,8 +174,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<UsuarioController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Usuarios"))
+                return BadRequest("No tiene permisos.");
+
             var usuario = context.Usuario.Find(id);
             if (usuario != null)
             {

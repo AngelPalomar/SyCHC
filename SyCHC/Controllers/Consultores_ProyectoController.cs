@@ -20,15 +20,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<Consultores_ProyectoController>
         [HttpGet]
-        public IEnumerable<Consultores_Proyecto> Get()
+        public IEnumerable<Consultores_Proyecto> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Proyectos"))
+                return null;
+
             return context.Consultores_Proyecto.ToList();
         }
 
         // GET api/<Consultores_ProyectoController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public ActionResult GetById(int id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Proyectos"))
+                return BadRequest("No tienes permisos");
+
             var consultoresProyecto = context.Consultores_Proyecto.Find(id);
             if (consultoresProyecto != null)
             {
@@ -42,8 +52,13 @@ namespace SyCHC.Controllers
 
         // GET api/<Consultores_ProyectoController>/lista-proyectos/5
         [HttpGet("lista-proyectos-consultor/{idConsultor}")]
-        public ActionResult GetProyectosPorConsultor(Guid idConsultor)
+        public ActionResult GetProyectosPorConsultor(Guid idConsultor, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Proyectos"))
+                return BadRequest("No tienes permisos");
+
             var consultoresProyecto = context
                 .Lista_Proyectos_Cliente_Consultor
                 .Where(cp => cp.IdConsultor == idConsultor);
@@ -60,8 +75,13 @@ namespace SyCHC.Controllers
 
         // GET api/<Consultores_ProyectoController>/lista-proyectos/5
         [HttpGet("lista-consultores/{idProyecto}")]
-        public ActionResult GetConsultoresPorProyecto(Guid idProyecto)
+        public ActionResult GetConsultoresPorProyecto(Guid idProyecto, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Proyectos"))
+                return BadRequest("No tienes permisos");
+
             var consultoresProyecto = context
                 .Lista_Consultores_De_Proyecto
                 .Where(cp => cp.IdProyecto == idProyecto);
@@ -78,8 +98,13 @@ namespace SyCHC.Controllers
 
         // POST api/<Consultores_ProyectoController>
         [HttpPost]
-        public ActionResult Post([FromBody] Consultores_Proyecto consultores_Proyecto)
+        public ActionResult Post([FromBody] Consultores_Proyecto consultores_Proyecto, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Proyectos"))
+                return BadRequest("No tienes permisos");
+
             //Validación si el consultor ya existe en el proyecto
             var existeConsultorProyecto = context
                 .Consultores_Proyecto
@@ -108,8 +133,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<Consultores_ProyectoController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Consultores_Proyecto nuevoConsultores_Proyecto)
+        public ActionResult Put(int id, [FromBody] Consultores_Proyecto nuevoConsultores_Proyecto, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Proyectos"))
+                return BadRequest("No tienes permisos");
+
             var consultoresProyectoRegistro = context.Consultores_Proyecto.Find(id);
             if (consultoresProyectoRegistro != null)
             {
@@ -136,8 +166,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<Consultores_ProyectoController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "eliminar", "Proyectos"))
+                return BadRequest("No tienes permisos");
+
             var consultorProyecto = context.Consultores_Proyecto.Find(id);
             if (consultorProyecto != null)
             {

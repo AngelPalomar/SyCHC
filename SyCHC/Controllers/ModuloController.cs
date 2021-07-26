@@ -22,15 +22,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<ModuloController>
         [HttpGet]
-        public IEnumerable<Modulo> Get()
+        public IEnumerable<Modulo> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Modulos"))
+                return null;
+
             return context.Modulo.ToList();
         }
 
         // GET api/<ModuloController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(Guid id)
+        public ActionResult GetById(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Modulos"))
+                return BadRequest("No tiene permisos");
+
             var modulo = context.Modulo.Find(id);
             if (modulo != null)
             {
@@ -44,8 +54,13 @@ namespace SyCHC.Controllers
 
         // POST api/<ModuloController>
         [HttpPost]
-        public ActionResult Post([FromBody] Modulo modulo)
+        public ActionResult Post([FromBody] Modulo modulo, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Modulos"))
+                return BadRequest("No tiene permisos");
+
             try
             {
                 modulo.Nombre = modulo.Nombre.Trim();
@@ -63,8 +78,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<ModuloController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Modulo nuevoModulo)
+        public ActionResult Put(Guid id, [FromBody] Modulo nuevoModulo, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Modulos"))
+                return BadRequest("No tiene permisos");
+
             var moduloRegistro = context.Modulo.Find(id);
             if (moduloRegistro != null)
             {
@@ -91,8 +111,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<ModuloController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "eliminar", "Modulos"))
+                return BadRequest("No tiene permisos");
+
             var moduloRegistro = context.Modulo.Find(id);
             if (moduloRegistro != null)
             {

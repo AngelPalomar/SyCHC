@@ -20,15 +20,25 @@ namespace SyCHC.Controllers
 
         // GET: api/<EtapaController>
         [HttpGet]
-        public IEnumerable<Etapa> Get()
+        public IEnumerable<Etapa> Get([FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Etapas"))
+                return null;
+
             return context.Etapa.ToList();
         }
 
         // GET api/<EtapaController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(Guid id)
+        public ActionResult GetById(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "ver", "Etapas"))
+                return BadRequest("No tiene permisos");
+
             var etapa = context.Etapa.Find(id);
             if (etapa != null)
             {
@@ -42,8 +52,13 @@ namespace SyCHC.Controllers
 
         // POST api/<EtapaController>
         [HttpPost]
-        public ActionResult Post([FromBody] Etapa etapa)
+        public ActionResult Post([FromBody] Etapa etapa, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "crear", "Etapas"))
+                return BadRequest("No tiene permisos");
+
             try
             {
                 context.Etapa.Add(etapa);
@@ -59,8 +74,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<EtapaController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Etapa nuevaEtapa)
+        public ActionResult Put(Guid id, [FromBody] Etapa nuevaEtapa, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "modificar", "Etapas"))
+                return BadRequest("No tiene permisos");
+
             var etapaRegistro = context.Etapa.Find(id);
             if (etapaRegistro != null)
             {
@@ -84,8 +104,13 @@ namespace SyCHC.Controllers
 
         // DELETE api/<EtapaController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, [FromHeader] Guid session_id)
         {
+            //Verifica accesos
+            AccesoController ac = new AccesoController(context);
+            if (!ac.TieneAcceso(session_id, "eliminar", "Etapas"))
+                return BadRequest("No tiene permisos");
+
             var etapa = context.Etapa.Find(id);
             if (etapa != null)
             {

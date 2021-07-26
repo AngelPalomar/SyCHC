@@ -13,6 +13,8 @@ namespace SyCHC.Models
         public Guid IdCliente { get; set; }
         public Guid IdUsuario { get; set; }
         public string NombreCliente { get; set; }
+        public string RazonSocial { get; set; }
+        public string ImagenURL { get; set; }
         public string CorreoElectronico { get; set; }
         public string NombreUsuario { get; set; }
     }

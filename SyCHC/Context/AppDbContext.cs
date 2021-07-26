@@ -31,6 +31,7 @@ namespace SyCHC.Context
 
         //Vistas
         public DbSet<Info_Sesion> Info_Sesion { get; set; }
+        public DbSet<Lista_Accesos_Modulo_Tipo_Usuario> Lista_Accesos_Modulo_Tipo_Usuario { get; set; }
         public DbSet<Lista_Funciones_Modulos> Lista_Funciones_Modulos { get; set; }
         public DbSet<Lista_Perfiles_Por_Consultor> Lista_Perfiles_Por_Consultor { get; set; }
         public DbSet<Lista_Etapas_De_Proyecto> Lista_Etapas_De_Proyecto { get; set; }
@@ -41,5 +42,6 @@ namespace SyCHC.Context
         public DbSet<Grafica_Cantidad_Usuarios> Grafica_Cantidad_Usuarios { get; set; }
         public DbSet<Grafica_Cantidad_Actividades_Semana> Grafica_Cantidad_Actividades_Semana { get; set; }
         public DbSet<Grafica_Calendario_Actividades> Grafica_Calendario_Actividades { get; set; }
+        public DbSet<Grafica_Calendario_Actividades_Consultor> Grafica_Calendario_Actividades_Consultor { get; set; }
     }
 }
