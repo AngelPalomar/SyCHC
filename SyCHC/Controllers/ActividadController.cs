@@ -63,7 +63,7 @@ namespace SyCHC.Controllers
                 return BadRequest("No tiene permisos");
 
             var actividad = context
-                .Actividad
+                .Lista_Actividades_Consultor_Proyecto
                 .Where(ac => ac.IdProyecto == idProyecto);
             if (actividad != null)
             {

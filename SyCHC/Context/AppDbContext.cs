@@ -32,6 +32,7 @@ namespace SyCHC.Context
         //Vistas
         public DbSet<Info_Sesion> Info_Sesion { get; set; }
         public DbSet<Lista_Accesos_Modulo_Tipo_Usuario> Lista_Accesos_Modulo_Tipo_Usuario { get; set; }
+        public DbSet<Lista_Actividades_Consultor_Proyecto> Lista_Actividades_Consultor_Proyecto { get; set; }
         public DbSet<Lista_Funciones_Modulos> Lista_Funciones_Modulos { get; set; }
         public DbSet<Lista_Perfiles_Por_Consultor> Lista_Perfiles_Por_Consultor { get; set; }
         public DbSet<Lista_Etapas_De_Proyecto> Lista_Etapas_De_Proyecto { get; set; }
