@@ -64,9 +64,9 @@ namespace SyCHC.Controllers
         }
 
         [HttpGet("consultor")]
-        public ActionResult GetReporteConsultor(Guid? idConsultor, Guid? idProyecto, DateTime? fecha1, DateTime? fecha2)
+        public ActionResult GetReporteConsultor(Guid? idConsultor, Guid? idCliente, Guid? idProyecto, DateTime? fecha1, DateTime? fecha2)
         {
-            //Validacion de id proyecto
+            //Validacion de id consultor
             if (!idConsultor.HasValue)
                 return BadRequest("Seleccione un consultor.");
 
@@ -77,6 +77,9 @@ namespace SyCHC.Controllers
                 return NotFound("Consultor no encontrado");
 
             //Valida y aplica los filtros
+            if (idCliente.HasValue)
+                reporte = reporte.Where(rp => rp.IdCliente == idCliente);
+
             if (idProyecto.HasValue)
                 reporte = reporte.Where(rp => rp.IdProyecto == idProyecto);
 
