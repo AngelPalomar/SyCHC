@@ -87,6 +87,18 @@ namespace SyCHC.Controllers
             //Guarda los datos de la actividad
             try
             {
+                //Compara las fechas para ver si la inicio es mayor a la final
+                if (actividad.FechaInicio > actividad.FechaFinal)
+                {
+                    return BadRequest("La fecha final debe ser mayor a la fecha inicial.");
+                }
+
+                //Resta las fechas para ver si es menor a una semana
+                if (actividad.FechaInicio.AddDays(7) < actividad.FechaFinal)
+                {
+                    return BadRequest("El periodo entre fecha de inicio y final debe ser igual o menor a 7 días.");
+                }
+
                 actividad.Fecha = DateTime.Now;
                 context.Actividad.Add(actividad);
                 context.SaveChanges();
@@ -114,9 +126,23 @@ namespace SyCHC.Controllers
             {
                 try
                 {
+                    //Compara las fechas para ver si la inicio es mayor a la final
+                    if (nuevaActividad.FechaInicio > nuevaActividad.FechaFinal)
+                    {
+                        return BadRequest("La fecha final debe ser mayor a la fecha inicial.");
+                    }
+
+                    //Resta las fechas para ver si es menor a una semana
+                    if (nuevaActividad.FechaInicio.AddDays(7) < nuevaActividad.FechaFinal)
+                    {
+                        return BadRequest("El periodo entre fecha de inicio y final debe ser igual o menor a 7 días.");
+                    }
+
                     actividadRegistro.IdProyecto = nuevaActividad.IdProyecto;
                     actividadRegistro.IdConsultor = nuevaActividad.IdConsultor;
                     actividadRegistro.Fecha = nuevaActividad.Fecha;
+                    actividadRegistro.FechaInicio = nuevaActividad.FechaInicio;
+                    actividadRegistro.FechaFinal = nuevaActividad.FechaFinal;
                     actividadRegistro.Descripcion = nuevaActividad.Descripcion;
                     actividadRegistro.Etapa = nuevaActividad.Etapa;
                     actividadRegistro.HorasTrabajadas = nuevaActividad.HorasTrabajadas;

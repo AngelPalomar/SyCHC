@@ -106,6 +106,12 @@ namespace SyCHC.Controllers
 
             try
             {
+                //Compara las fechas para ver si la inicio es mayor a la final
+                if (proyecto.FechaInicio > proyecto.FechaFinal)
+                {
+                    return BadRequest("La fecha final debe ser mayor a la fecha inicial.");
+                }
+
                 proyecto.UltimaModificacion = DateTime.Now;
                 context.Proyecto.Add(proyecto);
                 context.SaveChanges();
@@ -133,6 +139,12 @@ namespace SyCHC.Controllers
             {
                 try
                 {
+                    //Compara las fechas para ver si la inicio es mayor a la final
+                    if (nuevoProyecto.FechaInicio > nuevoProyecto.FechaFinal)
+                    {
+                        return BadRequest("La fecha final debe ser mayor a la fecha inicial.");
+                    }
+
                     proyectoRegistro.Nombre = nuevoProyecto.Nombre;
                     proyectoRegistro.Descripcion = nuevoProyecto.Descripcion;
                     proyectoRegistro.IdCliente = nuevoProyecto.IdCliente;
