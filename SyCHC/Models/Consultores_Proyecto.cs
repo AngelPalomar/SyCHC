@@ -9,7 +9,7 @@ namespace SyCHC.Models
     public class Consultores_Proyecto
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Guid IdConsultor { get; set; }
         public Guid IdProyecto { get; set; }
         public Guid IdPerfil { get; set; }

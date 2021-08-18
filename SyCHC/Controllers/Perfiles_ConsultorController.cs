@@ -73,7 +73,7 @@ namespace SyCHC.Controllers
 
         // PUT api/<Perfiles_ConsultorController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Perfiles_Consultor perfiles_Consultor)
+        public ActionResult Put(long id, [FromBody] Perfiles_Consultor perfiles_Consultor)
         {
             var perfilesConsultorRegistro = context.Perfiles_Consultor.Find(id);
             if (perfilesConsultorRegistro != null)
@@ -102,7 +102,7 @@ namespace SyCHC.Controllers
 
         // DELETE api/<Perfiles_ConsultorController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(long id)
         {
             var perfilConsultor = context.Perfiles_Consultor.Find(id);
             if (perfilConsultor != null)

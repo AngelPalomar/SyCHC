@@ -9,7 +9,7 @@ namespace SyCHC.Models
     [Keyless]
     public class Lista_Etapas_De_Proyecto
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Guid IdEtapa { get; set; }
         public Guid IdProyecto { get; set; }
         public string Nombre { get; set; }

@@ -55,7 +55,7 @@ namespace SyCHC.Controllers
 
         // GET api/<AccesoController>/5
         [HttpGet("{id}")]
-        public ActionResult GetById(int id, [FromHeader] Guid session_id)
+        public ActionResult GetById(long id, [FromHeader] Guid session_id)
         {
             //Verifica accesos
             if (!TieneAcceso(session_id, "ver", "Accesos"))
@@ -108,7 +108,7 @@ namespace SyCHC.Controllers
 
         // PUT api/<AccesoController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Acceso nuevoAcceso, [FromHeader] Guid session_id)
+        public ActionResult Put(long id, [FromBody] Acceso nuevoAcceso, [FromHeader] Guid session_id)
         {
             //Verifica accesos
             if (!TieneAcceso(session_id, "modificar", "Accesos"))
@@ -140,7 +140,7 @@ namespace SyCHC.Controllers
 
         // DELETE api/<AccesoController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id, [FromHeader] Guid session_id)
+        public ActionResult Delete(long id, [FromHeader] Guid session_id)
         {
             //Verifica accesos
             if (!TieneAcceso(session_id, "eliminar", "Accesos"))

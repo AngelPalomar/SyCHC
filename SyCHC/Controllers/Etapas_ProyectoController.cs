@@ -27,7 +27,7 @@ namespace SyCHC.Controllers
 
         // GET api/<Etapas_ProyectoController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public ActionResult Get(long id)
         {
             var etapaProyecto = context.Etapas_Proyecto.Find(id);
             if (etapaProyecto != null)
@@ -88,13 +88,13 @@ namespace SyCHC.Controllers
 
         // PUT api/<Etapas_ProyectoController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(long id, [FromBody] string value)
         {
         }
 
         // DELETE api/<Etapas_ProyectoController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(long id)
         {
             var etapa_proyecto = context.Etapas_Proyecto.Find(id);
             if (etapa_proyecto != null)

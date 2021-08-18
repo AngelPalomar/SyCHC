@@ -122,7 +122,7 @@ namespace SyCHC.Controllers
 
         // PUT api/<Cliente_UsuarioController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Clientes_Usuario nuevoClienteUsuario)
+        public ActionResult Put(long id, [FromBody] Clientes_Usuario nuevoClienteUsuario)
         {
             var cliSuarioRegistro = context.Clientes_Usuario.Find(id);
             if (cliSuarioRegistro != null)
@@ -148,7 +148,7 @@ namespace SyCHC.Controllers
 
         // DELETE api/<Cliente_UsuarioController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(long id)
         {
             var cliSuarioRegistro = context.Clientes_Usuario.Find(id);
 

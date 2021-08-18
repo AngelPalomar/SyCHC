@@ -32,7 +32,7 @@ namespace SyCHC.Controllers
 
         // GET api/<Consultores_ProyectoController>/5
         [HttpGet("{id}")]
-        public ActionResult GetById(int id, [FromHeader] Guid session_id)
+        public ActionResult GetById(long id, [FromHeader] Guid session_id)
         {
             //Verifica accesos
             AccesoController ac = new AccesoController(context);
@@ -133,7 +133,7 @@ namespace SyCHC.Controllers
 
         // PUT api/<Consultores_ProyectoController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Consultores_Proyecto nuevoConsultores_Proyecto, [FromHeader] Guid session_id)
+        public ActionResult Put(long id, [FromBody] Consultores_Proyecto nuevoConsultores_Proyecto, [FromHeader] Guid session_id)
         {
             //Verifica accesos
             AccesoController ac = new AccesoController(context);
@@ -166,7 +166,7 @@ namespace SyCHC.Controllers
 
         // DELETE api/<Consultores_ProyectoController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id, [FromHeader] Guid session_id)
+        public ActionResult Delete(long id, [FromHeader] Guid session_id)
         {
             //Verifica accesos
             AccesoController ac = new AccesoController(context);

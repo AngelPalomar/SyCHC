@@ -9,7 +9,7 @@ namespace SyCHC.Models
     [Keyless]
     public class Lista_Proyectos_Cliente_Consultor
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Guid IdProyecto { get; set; }
         public Guid IdConsultor { get; set; }
         public Guid IdCliente { get; set; }

@@ -9,7 +9,7 @@ namespace SyCHC.Models
     public class Etapas_Proyecto
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Guid IdEtapa { get; set; }
         public Guid IdProyecto { get; set; }
     }

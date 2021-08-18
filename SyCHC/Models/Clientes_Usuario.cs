@@ -9,7 +9,7 @@ namespace SyCHC.Models
     public class Clientes_Usuario
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Guid IdUsuario { get; set; }
         public Guid IdCliente { get; set; }
     }

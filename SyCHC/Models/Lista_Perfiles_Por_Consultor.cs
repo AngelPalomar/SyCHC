@@ -9,7 +9,7 @@ namespace SyCHC.Models
     [Keyless]
     public class Lista_Perfiles_Por_Consultor
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Guid IdPerfil { get; set; }
         public Guid IdConsultor { get; set; }
         public string Nombre { get; set; }

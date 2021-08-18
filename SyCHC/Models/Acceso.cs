@@ -9,7 +9,7 @@ namespace SyCHC.Models
     public class Acceso
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string IdTipoUsuario { get; set; }
         public Guid IdFuncion { get; set; }
         public bool Estado { get; set; }
