@@ -33,7 +33,8 @@ namespace SyCHC
             //DB
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Connection"));
+                options.UseMySql(Configuration.GetConnectionString("Connection"),
+                    new MySqlServerVersion(new Version(5, 7, 30)));
             });
             services.AddControllers();
         }

@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySql.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SyCHC.Models;
+using Microsoft.Extensions.Logging;
 
 namespace SyCHC.Context
 {
