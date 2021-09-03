@@ -49,7 +49,7 @@ namespace SyCHC
 
             //CORS
             app.UseCors(
-                options => options.WithOrigins("http://localhost:3000")
+                options => options.WithOrigins("http://localhost:3000", "http://35.224.197.152:4000", "https://35.224.197.152:4000")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()

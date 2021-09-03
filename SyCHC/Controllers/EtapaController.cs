@@ -119,7 +119,7 @@ namespace SyCHC.Controllers
                     context.Etapa.Remove(etapa);
                     context.SaveChanges();
 
-                    return Ok();
+                    return Ok("Etapa eliminada correctamente.");
                 }
                 catch (Exception ex)
                 {
