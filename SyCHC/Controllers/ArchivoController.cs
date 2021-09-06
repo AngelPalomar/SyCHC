@@ -32,6 +32,7 @@ namespace SyCHC.Controllers
             {
                 try
                 {
+                    //Prepara archivo nuevo
                     FileInfo fi = new FileInfo(archivo.FileName);
                     nuevoNombre = $"File_{DateTime.Now.TimeOfDay.Milliseconds}_{Guid.NewGuid()}_{fi}";
                     path = Path.Combine("", webHostEnvironment.ContentRootPath + "/Files/" + nuevoNombre);
@@ -42,6 +43,7 @@ namespace SyCHC.Controllers
                         archivo.CopyTo(stream);
                     }
 
+                    //Retorna nombre
                     return Ok(nuevoNombre);
                 }
                 catch (Exception ex)
@@ -59,18 +61,23 @@ namespace SyCHC.Controllers
         [HttpGet("{fileName}")]
         public IActionResult Get(string fileName)
         {
+            //Obtiene ruta de archivo
             var filePath = $"Files/{fileName}";
 
             try
             {
+                //TRansforma el archivo a bytes
                 byte[] bytes = System.IO.File.ReadAllBytes(filePath);
 
+                //Obtiene el tipo MIME
                 new FileExtensionContentTypeProvider().TryGetContentType(fileName, out string contentType);
 
+                //Muestra el archivo dependiendo de tipo MIME
                 return File(bytes, contentType);
             }
             catch (Exception)
             {
+                //Si no se encontró nada
                 return NotFound();
             }
         }
